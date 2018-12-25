@@ -1,0 +1,84 @@
+%!TEX root = ../thesis.tex
+%*******************************************************************************
+%****************************** 7th Chapter **********************************
+%*******************************************************************************
+\chapter{考察}
+\graphicspath{{Chapter7/Figs/}}
+
+% Discussion
+
+GitHubの膨大なイシューのデータから，プログラミング演習問題への転用に適さないイシューを分類するために，我々はヒューリスティックにより事前処理と決定木によるイシューの分類を行った．
+決定木の精度を評価した結果，F値の平均が0.79の精度で転用に適さないイシューを取り除くことができた．
+また，決定木による分類においては，変更行数が重要な特徴量であることが明らかとなった．
+今後，イシューの説明文やコード変更内容に関する特徴量を新たに用いることで，より精度の高い分類器を実装できる可能性がある．
+
+% Our quantitative examinations found a decision tree to select GitHub issues and code diff appropriate to repurpose to programming exercises.
+% In particular, the numbers of lines in code diffs is the primary feature for classification.
+% But the other features seemingly offered small contributions to the classification.
+% Our work encourages future investigations on additional features in issue descriptions and code diffs as well as use of advanced machine learning methods.
+
+% Sophisticated code syntax and semantic analysis could also contribute to selection accuracy.
+% However, our investigation shows that a na\"{i}ve application of syntax analysis (i.e., whether a code diff causes a syntax error or not) does not perform well.
+% Research may need an approach that exploits information in both issue descriptions and code diffs to identify valid exercises.
+% This is a unique problem in a system like RealCode, and our work encourages future work to further investigate.
+
+RealCodeが出題する演習問題の独自性評価から，GitHubのイシューを演習問題に転用する事で実現されたRealCodeの特徴が明らかとなった．
+特に「本番環境におけるバグの影響を実感できる」という項目は実験参加者から多くの同意を得られた．
+既存の学習環境とは異なり，本番環境ではソースコード中のバグがシステム障害やビジネスへの影響に直結する．
+RealCodeの演習問題では，バグが引き起こす影響の大きさを体感することができ，これは実際のイシューを演習問題に転用する事で提供可能となった学習内容である．
+% 一方でQ1（授業や教科書の問題と異なるか）に対し「同意しない」と判断された演習問題の多くが，プログラミング学習のために作られたリポジトリのイシューから出題されていた．
+% 例えばPython-Guide-for-Beginners\footnote{\url{https://github.com/HarendraSingh22/Python-Guide-for-Beginners}}では，Python初学者を対象としたサンプルのプログラムを多く掲載しており，簡単な演算を実装する演習問題をイシューの形式で提供している．
+% このようなリポジトリでは本研究が対象とするソフトウェア開発は行われていないので，RealCodeのデータセットから除外する仕組みが必要であると考える．
+
+
+
+
+
+8人の学生に対するRealCodeに関するインタビューにおいて，実験参加者らはRealCodeが出題する演習問題が実践的であると指摘した．
+特に授業で扱われているプログラミングと実際のソフトウェア開発の違いがインタビューから明らかとなった．
+RealCodeの演習問題のさらなる検証が必要ではあるものの，RealCodeが出題する演習問題では既存の学習環境にはない内容を提供可能である事が分かった．
+
+% The informal qualitative study uncovered participants' agreement on perceived uniqueness RealCode exercises demonstrate.
+% They appreciated connections with real-world development, and it is exactly the outcome this work aims at.
+% Although future work needs further validations, we show a strong potential of RealCode in capabilities to offer programming exercises that are not commonly available in existing learning materials.
+
+
+一方，本研究にはさらなる検証や改良を要する点が存在する．
+本研究の目的はGitHubのイシューをプログラミング演習問題に転用する事の実現可能性を検証することであるため，RealCodeが出題する演習問題の学習効果の評価を行っていない．
+また，現在のRealCodeのプロトタイプは，選択されたプログラミング言語に該当する演習問題をランダムに提供している．
+例えば難易度や内容に応じて演習問題を出題されるようになれば，ユーザのより体系的な学習を支援できるだろう．
+そのためには，イシューの説明文やコード変更内容を解析し，演習問題の難易度や内容を推定する仕組みを調査する必要があると考える．
+
+また，RealCodeが出題する演習問題の独自性評価では，Q1（授業や教科書の内容と異なるか）に対し36.44\%の演習問題が「同意しない」と判断された．
+これらの演習問題を分析した結果，多くがプログラミング学習のために作られたリポジトリのイシューから出題されていた．
+例えばPython-Guide-for-Beginners\footnote{\url{https://github.com/HarendraSingh22/Python-Guide-for-Beginners}}では，Python初学者を対象としたサンプルのプログラムを多く掲載しており，簡単な演算を実装する演習問題をイシューの形式で提供している．
+このようなリポジトリでは本研究が対象とするソフトウェア開発は行われていないので，RealCodeのデータセットから除外する仕組みが必要であると考える．
+
+学生に対するRealCodeのインタビュー評価では，3人の実験参加者ら（PC4，PC6，PC7）が，RealCodeの演習問題の背景を理解することが難しいと指摘した．
+例えばPC6は，「前提知識が少し多い気がする，何を聞かれているのかが分かるまでに時間がかかる」と述べた．
+イシューやプルリクエストの説明文だけでなく，リポジトリの説明文やファイル構造なども提供することで，演習問題の解答に必要な情報を補足することができると考える．
+
+
+% This work has several limitations to be noted.
+% It does not examine the learning effect of RealCode as our main scope is to uncover the feasibility of repurposing GitHub issues and code diffs to programming exercises.
+% The current RealCode prototype na\"{i}vely chooses an exercise at random.
+% This does not necessarily support strategic learning, such as starting with easy problems and moving to more advanced, or concentrating on a particular topic.
+% Future work may study how useful issue descriptions in addition to code diffs could be to determine the difficulty and scope of a given exercise.
+
+% Our issue screening and selection heuristics resulted in 4,722 issues, and are sufficient for the RealCode prototype.
+% Exercises using these issues cover 61 different programming, markup, and configuration languages.
+% RealCode thus can support learning of minor languages and experiencing infrequent development activities.
+
+
+% % Limitation
+% Although our informal qualitative study revealed a strong potential of RealCode, currently there are several limitation in the system.
+% Most existing programming exercises clearly define what learners can study from them (e.g., exercises to learn List).
+% However, the current RealCode prototype randomly provide exercises of a given programming language.
+% Future work should investigate categorization of exercises by not only code content (e.g., list and method) but also development content (e.g., network and database).
+
+% Our tool extracts only issues that satisfy our issue screening and selection heuristics.
+% However, still there are other appropriate issues and pull requests on GitHub for programming learning.
+% Exploring another approach of issue extraction for exercise use is important for future work.
+
+
+

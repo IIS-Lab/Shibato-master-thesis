@@ -1,0 +1,197 @@
+%!TEX root = ../thesis.tex
+%*******************************************************************************
+%****************************** Second Chapter *********************************
+%*******************************************************************************
+\chapter{関連研究}
+\graphicspath{{Chapter2/Figs/}}
+
+%
+% Automatic programming exercises generation based on a template-based approach
+%
+\section{プログラミング演習問題の自動生成}
+プログラミング演習問題はソフトウェア開発に関するスキル向上を目指して，プログラミング教育において広く利用されている．
+しかし，一般的にプログラミング演習問題の作成は時間がかかる上に，専門知識を必要とするため，多様な演習問題を数多く作成することは大変な労力を必要とする．
+そこで，プログラミング演習問題を自動的に生成する手法が研究されている．
+Pradosらは，テンプレートの書き換えによるプログラミング演習問題の自動生成システムを開発した~\cite{prados_automatic_exercise_generation}．
+このシステムでは，ユーザが登録したテンプレートとなるソースコード内の変数の値や関数の入力を異なる値に書き換えることで，プログラミング演習問題を自動的に生成する．
+同様の手法により，Sadighらは，プログラミングに関する教科書の例題を活用し，演習問題を自動生成する手法を開発した~\cite{Sadigh_automatic_exercise_generation}．
+このシステムでは教科書の例題を抽象化することで，演習問題のテンプレートを作成しており，Pradosらのシステムと同様にテンプレートの値を書き換えることで，演習問題を生成している．
+% \shibato{}{double-check}
+% \sakaguchi{}{一方で（？）}ZavalaらはAutomatic Item Generationを利用してプログラミング演習を自動生成する手法を開発した~\cite{Zavala_Semantic_Based_AIG}．\koji{}{Automatic Item Generationとはなにか？}
+% Zavalaらの手法では，同じテンプレートに基づいて\sakaguchi{異なる問題の定式化を含む演習}{これがよくわからなかったです…}を作成するために， Linked Open Dataを使用した．
+% \sakaguchi{}{各研究間でどんな繋がりがあるかを示す簡単な言葉があった方が読みやすいと思うのですが書かないのが一般的であればそれでいいと思います}
+% \koji{}{つなげてください．今のは箇条書きになっている．}
+%Prior research has explored template-based methods for automated exercise creation.
+% In Prados et al.'s system~\cite{prados_automatic_exercise_generation}, an instructor first creates a template with variables and formulae.
+% Their system then generates different exercises by replacing these variables and formulae with other values.
+% % Another method developed by Sadigh et al.~\cite{Sadigh_automatic_exercise_generation} generalizes programming exercises in a textbook to a single template by doing \xxx.
+% Another method developed by Sadigh et al.~\cite{Sadigh_automatic_exercise_generation} converts example programming exercises in a textbook to problem template.
+% They also adapted formal verification methods to generate problems and solutions from such templates.
+% Zavala et al.~\cite{Zavala_Semantic_Based_AIG} applied Automatic Item Generation to create programming exercises.
+% Their method used Linked Open Data to create exercises that are based on the same template but include different problem formulation.
+
+https://dl.acm.org/citation.cfm?id=2702580
+簡単な加減乗除の問題（チュートリアル？）を自動生成．
+
+上記の手法とは異なり，本研究はGitHub上に実在するイシューとプルリクエストのデータを転用することにより，プログラミング演習問題を生成することを目指す．
+同時に，GitHub上のデータを利用することにより，一般的な教科書では扱われていない内容を学ぶことができるプログラミング演習問題を学習者に提供することを目指している．
+
+% Unlike the work above, we investigate the feasibility of using real issue and pull request data on GitHub to generate programming exercises.
+% Another goal of our work is to understand how programming exercises created by our approach would cover content that is not commonly seen in textbooks.
+
+
+
+\section{オンラインの情報を活用したプログラミング学習支援}
+
+% Online learning becomes common in programming learning. 
+% Web-based learning systems can lower the burden of preparing coding environments.
+% Python Tutor developed by Guo~\cite{PythonTutor} is a web-based tool for Python learning where users can view variables and their contents at the user-selected execution point.
+% Other online learning services also offer an environment where users can directly write and test their code along with tutorials.
+
+%
+% Programming learning using Q&A websites, such as Stack Overflow.
+%
+
+StackOverflow\footnote{\url{https://stackoverflow.com/}}などに代表されるオンラインコミュニティでは，プログラミングに関する質問やその回答となるコードが共有されており，多くのソフトウェア開発者にとって有益な学習素材となっている~\cite{Mamykina_Design_SO}．
+% 先行研究により，ソフトウェア開発者はプログラミングを学ぶためにStackOverflowのようなオンラインコミュニティに参加している~\cite{Mamykina_Design_SO}．
+% しかし，\koji{学習内容に応じた知見を含む}{意味が通じていない}投稿を検索するには手間がかかる．
+しかし，ユーザが学習している内容と関連する投稿を検索するには手間がかかる．
+そこでGottipatiらは，プログラミングに関するオンラインコミュニティ上での投稿を，説明文及び投稿のタグを解析することで分類するモデルを実装した~\cite{Gottipati_finding_resource}．
+モデルの精度評価を行った結果，学習内容に関連する投稿を通常の検索エンジンと比較してより素早く見つけることが出来ることが明らかとなった．
+Sillitoらは，プログラミング学習に有用な投稿を定義するために，StackOverflowにおいて質問投稿者が最も優れているとして選択された回答の特徴を分析した~\cite{StackOverflowCodeExample}．
+その結果，簡単なコードの例があることと背景知識が明確に記されていることが，有用だと評価を受けた回答の特徴であることを明らかにした．
+
+% Online programming communities (e.g., StackOverflow\footnote{\url{https://stackoverflow.com/}}) share questions and possible code solutions, which can serve as a learning resource for non-expert programmers.
+% Prior work has revealed that developers often read on these websites to learn an API method or a programming language~\cite{Mamykina_Design_SO}.
+% However, finding helpful posts can be time-consuming, especially in large websites.
+% Gottipati et al.~\cite{Gottipati_finding_resource} built a text classification model on different types of entries in software Q\&A websites, and showed that their tool outperforms normal search engines in finding relevant posts to given queries.
+% Sillito et al.~\cite{StackOverflowCodeExample} found that both concise code examples and clearly-described backgrounds in posts determine perceived helpfulness.
+% They found that both concise code examples and \koji{use of a question context}{not sure what you mean} determines the helpfulness.
+
+
+%
+% Programming learning using online source code. Code search engines, such as searchcode and GitHub
+%
+
+コメントや質問・回答以外に，実際のソースコードもプログラミング学習のための情報源の一つであり，多くの人がオンライン上のソースコードを活用してプログラミング学習を行っている~\cite{Brandt:2009:TSO:1518701.1518944}．
+XieとPeiによって実装され~\cite{MAPO}，Zhongらによって拡張されたMAPO~\cite{extended_MAPO}では，コード検索エンジン（~searchcode\footnote{\url{https://searchcode.com/}}やGitHubなど）から取得したコードを用いて，APIの使用例を抽出することができる．
+MAPOは文字列の類似度を分析することでAPIの使用例を分類し，その使用例に優先順位を付けた上でユーザに推薦することが可能となっている．
+また，FowkesとSuttonはパラメータの調整が不要な確率的モデルを用いることで，APIの使用例を抽出する手法を構築した~\cite{GitHubAPIMining}．
+そのモデルをGitHubのコード検索と比較した結果，より高い精度で関連するAPIの使用例を抽出することができると分かった．
+% Actual source code can be another resource for learning.
+% MAPO, built by Xie and Pei~\cite{MAPO} and extended by Zhong et al.~\cite{extended_MAPO}, mines API usage patterns from code snippets extracted through code search engines.
+% %(e.g., searchcode~\footnote{\url{https://searchcode.com/}} and GitHub~\footnote{\url{https://github.com/explore}}).
+% MAPO clusters API method usage based on string similarity, and prioritizes for recommendations.
+% Fowkes and Sutton~\cite{GitHubAPIMining} built a new API mining algorithm using parameter-free probabilistic modeling.
+% Their approach significantly outperformed existing algorithms at retrieving relevant API call sequences from GitHub.
+
+% プログラミング学習だけでなく，ソフトウェア開発者の多くが効率的な実装のためにオンライン上のソースコードを参照している．
+% しかし，オンラインのソースコードを理解し再利用するにはその背景知識などが必要となる．
+% そこでHarmsらは，オンラインのソースコードに対しチュートリアルを自動生成することで，ソースコードの再利用を支援するシステムを開発した~\cite{Harms:2013:AGT:2485760.2485764}．
+% システム上でユーザが再利用したいコードを選択すると，その中の変数名が抽象化されると同時に，ユーザのソースコードに組み込むためのチュートリアルが提示される．
+
+
+上記の先行研究ではコードの検索を改善することでユーザの能動的な情報収集を支援している．
+ただし，能動的な検索は明確な学習目標と検索に適したキーワードの知識が必要となる．
+RealCodeでは，そのようなキーワードの知識がなくとも，実際のプログラミング開発で行われたコード変更を通した学習をすることができ，より探索的な学習を支援できると期待される．
+
+% The work above focuses on addressing user's active information seeking by providing improved search methods.
+% However, in our main scenario, users are interested in practicing with a broad set of examples.
+% We thus need to develop a different approach to extract appropriate code examples for exercise.
+
+
+
+% \subsection{オンラインのソースコードを利用した学習支援}
+
+% 現在，多くの人がオンライン上のソースコードを活用してプログラミングの学習を行っている~\cite{Brandt:2009:TSO:1518701.1518944}．
+% しかしオンライン上のソースコードは他人によって書かれており，理解するためには様々な障壁がある．
+% そこで，学習者がオンラインのソースコードからプログラミングを勉強する際の，情報の検索方法と検索時の障壁に関して調査を行った先行研究が幾つかある．
+% Grossらはプログラミング学習におけるオンラインのソースコードの有用性を調査するためにユーザ実験を行なった~\cite{Gross_eup}．
+% \shibato{}{}
+% 実験参加者は,与えられた入力と出力に対し，入力を受け取るコードと出力を返すコードをオンラインのソースコード上で特定するタスクを行なった．
+% その結果初心者のプログラマーにとって，ソースコード全体の仕組みの理解（big picture）と，タスクのために理解すべきコードとそうでない取捨選択が難しい事を明らかにした．
+
+% Grossらはプログラミング経験に乏しいユーザがオンラインのコードを再利用するシステムを開発した~\cite{Gross_code_reuse}．
+% このシステムは，ユーザが再利用したいと考えた機能を実現しているコード箇所を特定し，そのコードを第三者でも理解可能なように抽象化する事ができる．
+
+% Hartmannらは，ウェブサイトのインターフェースと使用しているAPIのドキュメントを関連させる事で，インターフェース上でAPIの説明を追加するシステムを開発した~\cite{Hartmann_DMix}．
+
+% Harmsらはオンラインのソースコードに対しチュートリアルを自動生成するシステムを開発した~\cite{Harms:2013:AGT:2485760.2485764}．
+
+
+
+\section{GitHubのイシューの大規模な分析}
+
+GitHubでは多くのソフトウェア開発プロジェクトがリポジトリとして管理されており，開発上の課題管理ツールとしてイシューが利用されている．
+ソフトウェア開発プロセスの理解と改善を目的として，イシューの大規模な分析を行った研究がいくつか報告されている．
+Mantylaらはイシューの重要性を判定するために， Software Engineering Arousal（SEA）語彙集と，Warrinerらによる一般向けの語彙集を組み合わせた語彙集を作成した~\cite{Mantyla:issue:word:list}．
+新たに作成された語彙集を用いて実装されたイシューの重要度判定器は，既存の語彙集を単体で使用した判定器よりも高い判定精度を示した．
+Bissyandeらは，イシューのラベルの種類と使用頻度を明らかにするために，10万以上のリポジトリにおけるイシューのラベルの分析を行った~\cite{Bissyande:gh:issues}．
+その結果，バグまたは新機能に関するラベルが最も頻繁に使用されていることが明らかとなった．
+またKalyanasundaramらは，bootstrapのリポジトリ\footnote{\url{https://github.com/twbs/bootstrap}}におけるイシューの自動ラベリングを実装した~\cite{kalyanasundaram2014automatic}．
+この研究ではイシューのタイトルと説明文をナイーブベイズ分類器で学習させることで，85\%の精度でbootstrapのリポジトリのイシューのラベルを推定することができた．
+
+このように，ソフトウェア開発プロセスの改善を目的として，これまでにGitHubのイシューの大規模な分析が行われてきた．
+一方で本研究では，プログラミング演習問題への転用を目的として，GitHubのイシューの抽出および分類を行うため，新たな分類手法が必要となる．
+
+
+
+\section{APIの学習と活用支援}
+
+\daisuke{特に実際のソフトウェア開発では，実装済みであるApplication Programming Interfaces~(API)を活用することが重要である．}{add citation}
+しかし，開発者にとってAPIの使用方法を学習し開発に適用することは難しい~\cite{robillard2011field}．
+そこで，APIの学習と活用を支援するための様々な手法が研究されている．
+
+最もナイーブな支援方法として，頻繁に使用されるAPIのリストを表示する手法がある．
+統合開発環境内での表示~\cite{Holmes_2008_MSR_Eclipse_APIs}，ソフトウェア内での表示~\cite{UIST_2009_CommunityCommands}，ドキュメント内での表示~\cite{VLHCC_2009_API_doc_API_usage}といったシステムがこれまでに提案されてきた．
+また，提案したAPIが実際に使用されたかどうかを学習データとして用いることで，ユーザに提示するAPIの順序を強調フィルタリングにより改善する研究も行われている~\cite{colab_filtering_api_recommend}．
+
+ソースコード中のAPIの使用方法を抽出することで，ユーザによりリッチな情報を提供することが可能となる．
+Holmesらは，ソースコードからAPIが使用されている箇所を特定し，APIの使用例としてユーザに提示することで，ユーザのAPI活用の理解を支援するシステムを開発した~\cite{Holmes_2006_recommend_api_example}．
+Holmesらの手法では，APIに関する情報だけでなく，親クラスや子クラス，関連する関数の情報も提示される．
+また，ZhongらによるMAPO~\cite{extended_MAPO}では，APIの使用例に加えて，同時に頻繁に使用される他の関数を特定することも可能となっている．
+Bajracharyaらは，ユーザが検索したいAPIと似た機能をもつAPIを提案するシステムを実装した~\cite{Bajracharya:2010:LUS}．
+
+オンラインコミュニティもまた，APIに関する有用な情報源となりうる．
+Cordeiroらは，ユーザが使用しているAPIに関する投稿をStack OverFlowから抽出し，統合開発環境内で提示するシステムを実装した\cite{Cordeiro_2012_extract_QA_SO}．
+
+\daisuke{}{ユーザの行動やコードを用いたAPIのsuggestについて書く．Example Guru もここ．}
+
+
+
+\daisuke{}{発生したエラーから，APIを提案する研究について書く．}
+
+
+
+
+
+
+
+
+
+\section{チュートリアル系}
+
+ここでいうチュートリアルとは，単にコードの解説であることに注意．
+
+\subsubsection*{Automatically generating tutorials to enable middle school children to learn programming independently (https://dl.acm.org/citation.cfm?id=2485760.2485764)}
+
+the Looking Glass [28] programming environment 上のコード断片を自分のソースコードにreapplyするためのチュートリアルを自動作成？
+構文の解説を自動生成している．また，reapplyするために変数の抽象化や，自分のソースコードとのマッチをやってる．
+
+コード断片のreapplyの成功率が64\%改善した．
+
+\subsubsection*{Suggesting API Usage to Novice Programmers with the Example Guru}
+https://dl.acm.org/citation.cfm?id=3025827
+2017, CHI
+この論文の関連研究をまとめるべき．
+
+
+\subsubsection{まとめ}
+
+チュートリアルは inactive learning．RealCode は active learning.
+
+
+
+\section{まとめ}
+まとめ
+

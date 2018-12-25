@@ -1,0 +1,215 @@
+\def\vector#1{\mbox{\boldmath $#1$}}
+
+%!TEX root = ../thesis.tex
+%*******************************************************************************
+%****************************** Forth Chapter **********************************
+%*******************************************************************************
+\chapter[演習問題に転用可能なGitHubのイシューの抽出]{演習問題に転用可能なGitHubのイシューの抽出}
+\graphicspath{{Chapter3/Figs/}}
+
+\label{section:issue-classification}
+
+\section{データ収集とヒューリスティクスによる事前処理}
+
+% Our goal is to create programming exercises using issues and code diffs on GitHub, and provide learning experience grounded to real development.
+本研究の目的は，GitHubのイシューとプルリクエストを転用することで，実際のプログラミング開発で行われたコード変更を演習問題として提供することにある．
+% However, not all the issues and code diffs available on GitHub are appropriate for exercise use.
+しかし，GitHub上の全てのイシューやプルリクエストが演習問題への転用に適しているとは限らない．
+% For instance, issues may contain lengthy code revisions.
+例えば説明のないイシューや，リポジトリに関する専門的な知識を必要とするプルリクエストは，学習者にとって理解することが難しいことが想定される．
+% \masaki{例えば説明のないイシューや，リポジトリに関する専門知識を含むプルリクエストは，学習者にとって理解することが難しい．}{「説明のない」がどこまでかかるのか最初分からなかったので，イシューやの後に読点があった方が良いかも？}
+% Issues without descriptions would be difficult for a third person to understand their objectives.
+% Exercises that require special knowledge about a project or are unnecessarily complex would be inappropriate as well.
+
+% Because of an enormous number of issues and code diffs on GitHub, we performed screening before performing classification.
+そこで我々は，GitHub上の公開されているイシューとプルリクエストのうち，プログラミング演習問題に転用できると考えられるものを抽出するため，以下の５つのヒューリスティクスを用いた．
+\begin{enumerate}
+\item[H1] \textbf{リポジトリ外部の開発者でも対応可能と明示的に指定されているイシューであること}: この情報がイシューに対して明示的に与えられていることは，コード変更に必要な情報が全てイシュー内で提供されていると想定できるため．
+\item[H2] \textbf{プルリクエストに含まれるコード変更が50行以下であること}: 極端に長いコード変更は演習問題として不適切であるため．
+\item[H3] \textbf{プルリクエストのコード変更が1ファイルのみにて行われていること}: 複数のファイルにまたがるコード変更は各ファイルの役割などリポジトリ特有の知識を必要とする可能性が高いため．
+\item[H4] \textbf{イシューが説明文を含むこと}: 説明文をプログラミング演習問題の問題文として利用するため，その情報がないイシューは不適切であるため．
+\item[H5]  \textbf{イシューが閉じられており，関連するプルリクエストがマージされていること}: マージはコード変更が開発チームで認めれたものであり，コード変更が適切であることを示すと考えられるため．
+\end{enumerate}
+% Given examples like above, we derived the following heuristics for screening: S1) Issues can be assigned to external developers; S2) Code diffs should be in fewer than 50 lines; S3) Code diffs are affected only in a single file; S4) Issues should contain descriptions; and S5) Issues are closed and associated with successfully-merged pull requests.
+
+% \masaki{Up for grabs\url{http://up-for-grabs.net}}{previewの見た目が合ってなさそう．}
+Up for grabs\footnote{\url{http://up-for-grabs.net}}というウェブサイトでは，リポジトリ外部の開発者であっても取り組むことができるイシューを列挙している．
+我々はこのウェブサイトが掲載しているラベル（例えば``good first issue''や``help-wanted''）が付けられているイシューのみを利用することで，H1を適応することとした．
+% \masaki{ラベル付け(例えば``good first issue''や``help-wanted'')を利用することで，}{「ラベル付けを含むイシューのみを利用する」とかの方が理解しやすい？}R1を適応することとした．
+% 2018年3月12日の時点で更新が新しい順に3,000件のリポジトリから，Up for grabsが利用しているラベル付けを含むイシューを取得し，さらにR2からR5を適応した結果，6,381件のイシューと関連するプルリクエストを抽出した．
+2018年3月12日の時点で更新が新しい順に3,000件のリポジトリから，Up for grabsが利用しているラベルを含むイシューを取得した．
+そしてそれらのイシューにH2からH5を適用した結果，6,381件のイシューと関連するプルリクエストを抽出した．
+
+% Data collecting
+%%%%%%%%%%%%%%%%%%%
+
+\begin{table}[t]
+
+  \centering
+  \caption{GitHubから収集したデータの構造}
+  \label{table:format_collected_GH_data}
+    
+  \begin{tabular}{l | c | c } \Xhline{3\arrayrulewidth}
+      名前 & 型 & 説明 \\ \hline \hline
+      author & json & ユーザ名やユーザページのURLなど\\
+      body & string & イシューの説明文  \\
+      bodyHTML & string & HTML表記でのイシューの説明文 \\
+      comments & json & 本文や作成者の情報など \\
+      createdAt & datetime & イシューが作成された日時 \\
+      labels & [json] & イシューに付与されているラベルに関する情報 \\
+      repository & json & リポジトリ名やURL，主要な開発言語など\\  
+      state & string & イシューの状態（open，closedなど） \\
+      pullRequest & json & プルリクエストの説明文やコード変更量など \\
+      title & string & イシューのタイトル \\
+      url & string & イシューのURL \\
+      
+      \Xhline{3\arrayrulewidth}
+  \end{tabular}
+\end{table}
+
+GitHubからのデータ収集にはGitHub GraphQL v4~\footnote{\url{https://developer.github.com/v4/}}を使用した．
+GraphQLではデータの構造とフィールドを指定することで，必要な情報のみを受け取ることができる．
+また，イシューに関連するプルリクエストといった，関連する異なるオブジェクトをも1クエリで取得することができるという特徴をもつ．
+図\ref{table:format_collected_GH_data}に，GraphQLを用いたデータ収集にて使用したデータ構造を示す．
+型がjsonの項目については，その項目に関する必要な情報がネスト形式で記述されている．
+
+GraphQLによりイシューと関連するプルリクエストの情報を抽出することができるが，プルリクエストにて行われた実際のコード変更データはGraphQLからは取得することができない．
+GraphQLから収集したイシューについて，gitコマンドを用いて関連するリポジトリとコード変更履歴をクローンし，変更前と変更後のバージョンのコードを比較することでコード変更データを抽出した．
+Pythonからgitコマンドを実行するために，GitPython~\footnote{\url{https://gitpython.readthedocs.io/en/stable/}}を使用した．
+  
+\section{決定木を用いた転用に適したイシューの抽出}
+
+\subsection{データのラベル付け}
+前節にて述べたGitHub上のデータ抽出作業により，プログラミング演習問題に転用する上で不適切であると考えれるイシューおよびプルリクエストを取り除くことができた．
+しかし，抽出されたデータから作られた演習問題がすべて適切であるとは限らない．
+例えばソースコード中のコメントを修正するような演習問題は，プログラミング言語の学習において学べることは非常に小さい．
+そこで我々は妥当でないプログラミング演習問題を生成し得るイシューを除去するための，機械学習を用いた分類器を実装することとした．
+%また，分類器の学習に必要なデータセットを構築するために，学生によるラベル付けを行った．
+
+% Although our screening filtered out issues clearly unusable for our purpose, it is still unknown whether generated exercises would offer valid problems.
+% We thus decided to create a classifier to remove issues and code diffs that would result in invalid exercises.
+% To this end, we conducted an experiment to collect human ratings.
+
+分類器の実装にあたり，イシューから転用した演習問題がプログラミング演習問題として成立するかどうかの評価を行い，教師あり学習におけるラベルを生成することとした．
+まず，事前処理後のデータに修正を加えずに，イシュー内の説明文とコード変更をそれぞれ問題文，解答コード例とするプログラミング演習問題を生成した．
+それぞれの演習問題に対し，「与えられた演習問題は，問題として成立していた．」かを，Pythonの授業を大学で受講した経験がある10人の学生（PA1--10）に５段階で評価してもらった（1: 全く同意しない -- 5: 強く同意する）．
+各実験参加者は時間の許す限りできるだけ多くの演習問題の評価を行ってもらうように指示した．
+評価の結果，少なくとも2人の実験参加者が評価を行ったイシューが211件得られた．
+
+% We recruited 10 students (PA1--10) who had taken at least one Python class at their universities.
+% During the experiment spanning for three days, we asked the participants to solve at least 50 exercises generated by our system.
+% For each exercise, the participants were asked to response to a 5-Likert scale question of ``This was a valid programming exercise.'' (1=Strongly disagree -- 5=Strongly agree).
+% %We offered approximately 45 USD in local currency as a compensation at the end of the experiment.
+% The participants were also encouraged to solve as many exercises as possible with an incentive of additional compensation for the top three contributors.
+% As a result, we collected 211 exercises that contain ratings from 2 participants.
+
+211件のイシューに対して，得られた回答の平均値が3.5点以上のイシューをプログラミング演習問題への転用に適するもの，それ以外を転用に適さないものとした．
+その結果，85件の転用に適するイシュー（``repurposeable"）と，126件の転用に適さないイシュー（``unrepurposeable"）を得た．
+
+% We took the average value for the two ratings on each exercise.
+% We then categorized each exercise to ``valid'' if the average was equal to or higher than 3.5.
+% The rest of the exercises were grouped to ``invalid" to make our classification rather conservative.
+% After categorization, we had 85 and 126 exercises for the valid and invalid categories, respectively.
+
+\subsection{分類手法}
+% 
+ラベル付けされたプログラミング演習問題の件数が限られているため，本研究では決定木を用いた分類器を利用することとした．
+決定木は分類の工程や結果を可視化することができるため，どの特徴量が分類に有効であるかどうかを議論することが可能となる．
+
+% Data-intensive methods (e.g., deep learning) would be infeasible due to the small size of our dataset. 
+% We instead decided to use a decision tree (a Classification and Regression Tree) for our classification.
+% A decision tree also visualizes classification process, and we can examine what features would contribute to accurate classification.
+
+はじめに我々はunrepurposeableと分類されるべきイシューを特定するための次の3つの仮説を立てた．
+% \sakaguchi{}{これは上の実験のインタビュー結果からでしょうか？}
+\begin{itemize}
+\item[\textbf{仮説1}: ] \textbf{コード変更が短すぎる．} コードの変更量が少なすぎるものは含まれている学習すべき内容が少ないと想定されるため．
+\item[\textbf{仮説2}: ] \textbf{イシューの説明文が短すぎる，あるいは長すぎる．} 説明文が短いものは問題内容を理解するためには十分な情報が入っていない，長過ぎるものは問題内容を読むこと自体に時間がかかりすぎてしまうと想定されるため．
+\item[\textbf{仮説3}: ] \textbf{イシューを取得してきたリポジトリが，リポジトリ外部の開発者向けのイシューを頻繁には作成していない．} このようなリポジトリでは，リポジトリ外部の開発者との連携が少なく，外部の開発者向けのイシューの難易度，説明文の情報量に関する十分な経験がないと考えられるため．
+\end{itemize}
+
+% To derive potential features, we first derived the following hypotheses for identifying issues to be removed: H1) A code diff causes syntax errors; H2) A code diff is too short; H3) A description is too long or too short; and H4) The associated repository rarely creates entry tasks for external contributors.
+
+上記の仮説を元に，我々は次の3つの特徴量を作成した．
+
+% The second hypothesis is derived because too short code diff would not hold much information to learn.
+% We expect that descriptions in a repository which rarely creates issues for external basic-level contributors may not be easy for non-members to understand.
+% Based on these hypotheses, we created the four following features:
+
+\begin{itemize}
+% \setlength{\leftskip}{-3mm}
+  \item \textit{code\_lines}: コード変更の行数
+  \item \textit{desc\_words}: イシューの説明文の単語数
+  \item \textit{entry\_issues}: 各リポジトリにおいて外部の開発者向けと指定されているイシューの数
+\end{itemize}
+
+% \begin{itemize}
+% \setlength{\leftskip}{-3mm}
+%   \item \textit{syntax\_error}: 1 if the portion affected by a code diff causes syntax errors, and otherwise 0.
+%   \item \textit{code\_lines}: the number of lines in code diffs.
+%   \item \textit{desc\_words}: the number of words in issue descriptions.
+%   \item \textit{entry\_issues}: the number of entry issues in the same repository. For this feature, we counted issues listed in Up for Grabs for each repository.
+% \end{itemize}
+
+%We calculated the value of these features for all labeled issue and code diff data.
+
+決定木の学習においては，過学習を防ぐために決定木の深さを３以下にし，分類されたサンプルが3つ以下の枝については枝刈りを行った．
+決定木の精度の評価には10分割交差検証法を採用した．
+
+% We then trained a decision tree with constraining its depth to be three to avoid over-fitting.
+% We also pruned trees that applied to fewer than three samples.
+% We conducted 10-fold cross validation for performance measurement.
+
+
+
+\begin{figure}[t]
+	\centering
+  \includegraphics[width=1.0\columnwidth]{graph_20181005.png}
+  \caption{プログラミング演習問題への転用に適するイシュー（``repurposeable"）と，転用に適さないイシュー（``unrepurposeable"）を分類する決定木．背景色が青の葉はrepurposeableへと，橙の葉はunrepurposeableへと分類する．葉の背景色が濃いほど，ジニ係数が小さいことを意味する．}
+  \label{fig:dtgraph}
+\end{figure}
+
+
+図~\ref{fig:dtgraph}に211件のラベルづけされた全てのイシューを用いて学習させた決定木を示す．
+橙はunrepurposeable，青はrepurposeableとして分類されることを意味する．
+10分割交差検証法で識別精度を検証した結果，unrepurposeableな演習問題において適合率が0.89，再現度が0.73，repurposeableなイシューにおいて適合率が0.71，再現度が0.83であった．
+図~\ref{fig:dtgraph}が示すように，コード変更の行数を用いた分類が第1段階で行われており，イシューの識別において大きな役割を担っていることが示唆される．
+特に，1行のコード変更からなる演習問題の多くがunrepurposeableな演習問題として分類されている．
+また，\textit{desc\_words}と\textit{entry\_issues}も分類に一定の寄与を示しており，仮説から構築した特徴量がある程度の効果を上げていることが見て取れる．
+% Figure~\ref{fig:dtgraph} shows the decision tree trained with all 211 samples.
+% Orange and blue represent the ``invalid" and ``valid" classes, respectively.
+% This decision tree showed reasonable classification accuracy: precision: 0.89, recall: 0.73 for invalid exercises; and  precision: 0.71, recall: 0.83 for valid exercises.
+% It suggests that the numbers of lines in code diffs is the key feature.
+% A single-line code diff is likely to result in invalid exercise.
+% \textit{desc\_words} and \textit{entry\_issues} offer additional contributions to the classification.
+%This decision tree showed reasonable classification accuracy: precision: 0.84, recall: 0.64 for invalid exercises; and  precision: 0.67, recall: 0.83 for valid exercises.
+%It suggests that the numbers of lines in code diffs and entry issues in the associated repositories are the key features.
+%Valid exercises are likely to have 2--13 lines in code diffs and to be in a repository that has produced multiple entry issues.
+
+
+
+
+図~\ref{fig:dtgraph}の深さが1の左の葉では既にジニ係数が0.1207となっており，unrepurposeableと分類する純度の高い葉が$\textit{code\_lines}=1$のみの条件により生成できている事が分かる．
+この条件では，ソースコード中の1行のタイプミスの修正や，1行のみのコード変更によるバグ修正などの例が確認できた．
+そういった演習問題では，プログラミング言語の学習において学べることは非常に小さい，あるいは前後のコードが明示的に与えられない為に解答するうえで必要な背景知識が十分に提示できていないことが多く存在する．
+図~\ref{fig:dtgraph}に示す分類器は，このようなイシューを正しくunrepurposeableと分類できている．
+
+一方で深さが3の右二つの葉では，repurposeableと分類されており，かつジニ係数が高くなっている（0.245と0.497）．
+即ち，unrepurposeableと分類されるべき多くのイシューが誤ってrepurposeableと分類されてしまっている．
+図1を見ると，$\textit{code\_lines} >= 2$かつ$\textit{entry\_issues} >= 2$を満たすイシューがこれら右2つの葉に分類されている．
+それらの条件を満たすunrepurposeableなイシューの例としては，実験参加者にとってあまり馴染みのないソフトウェア（例えば，自動デプロイ用のコンソールアプリ）のリポジトリから抽出されたイシューなどがあった．
+ウェブアプリやライブラリといったリポジトリの特徴を決定木の特徴量に加えることで，さらに決定木の精度を向上させる事ができると考えられる．
+
+この決定木を用いたフィルタリングは完全ではないが，F値の平均が0.79の精度でプログラミング演習問題への転用に適さないイシューを取り除くことができており，現在のプロトタイプに導入することとした．
+この決定木により，6,381件中の2,592件のイシューと関連するプルリクエストが転用に適すると判断され，現在のRealCodeのシステムにおいてプログラミング演習問題に使用されている．
+
+% As the classification above reasonably removes invalid exercises, we decided to incorporate this decision tree.
+% Applying this decision tree, we obtained 2,592 issues and associated code diffs, and imported to RealCode.
+
+
+
+
+
+
+
+

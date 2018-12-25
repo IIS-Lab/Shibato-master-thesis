@@ -1,0 +1,128 @@
+\def\vector#1{\mbox{\boldmath $#1$}}
+
+%!TEX root = ../thesis.tex
+%*******************************************************************************
+%****************************** Forth Chapter **********************************
+%*******************************************************************************
+\chapter[インターフェース]{インターフェース}
+\graphicspath{{Chapter4/Figs/}}
+
+% \begin{figure*}[!t]
+% \centering
+% \begin{minipage}{1.0\textwidth}
+%     \centering
+%     \subfloat[単語帳形式]
+%     {
+%         \includegraphics[width=0.33\hsize]{flash-card.png}
+%         \label{fig:flash}
+%     }
+%     \subfloat[選択式]
+%     {
+%         \includegraphics[width=0.33\hsize]{multi-choice.png}
+%         \label{fig:mcq}
+%     }
+%     \subfloat[穴埋め式]
+%     {
+%         \includegraphics[width=0.33\hsize]{fill-blank.png}
+%         \label{fig:fill}
+%     }
+%     \caption{RealCodeが提供する3種類のインターフェース．ユーザは自身の学習計画に応じてこれらのインターフェースを選択することができる．}
+%     \label{fig:system_screens}
+% \end{minipage}
+% \end{figure*}
+
+\begin{figure}[t]
+	\centering
+  \includegraphics[width=1.0\columnwidth]{flash-card.png}
+  \caption{単語帳形式．}
+  \label{fig:flash}
+\end{figure}
+
+\begin{figure}[t]
+	\centering
+  \includegraphics[width=1.0\columnwidth]{multi-choice.png}
+  \caption{選択式．}
+  \label{fig:flash}
+\end{figure}
+
+\begin{figure}[t]
+	\centering
+  \includegraphics[width=1.0\columnwidth]{flash-card.png}
+  \caption{穴埋め式．}
+  \label{fig:fill}
+\end{figure}
+
+
+
+  
+
+
+
+RealCodeは\ref{section:issue-classification}章で転用可能とされたイシューのデータを3種類のインターフェースを通じて演習問題として学習者に提供する事ができる．
+図~\ref{fig:system_screens}にRealCodeのインターフェースを示す．
+3種類のインターフェースはそれぞれ，単語帳（図~\ref{fig:flash}），選択式（図~\ref{fig:mcq}），穴埋め式（図~\ref{fig:fill}）の形式で演習問題を提示する．
+RealCodeではイシューの説明文を問題文として，対応するプルリクエストのコード変更を解答コードとして利用している．
+システムはデスクトップとモバイルの両方に対応しており，ユーザの柔軟な学習を支援できる\cite{gassler2004integrated}．
+現在のRealCodeには一般的なプログラミング言語（例，Python）に加えて，マークアップ言語（例，CSS）や拡張言語（例，Sass），設定言語（例，TOML）を含む51のプログラミング言語の演習問題が用意されている（但し，穴埋め式のインターフェースはPythonのみ）．
+
+
+% Using issue data after the screening and classification, RealCode provides interfaces to present them to learners as programming exercises (Figure~\ref{fig:system_screens}). 
+% It presents an exercise in a given programming language in three learning interfaces: \textit{FlashCard}~(Figure~\ref{fig:flash}), \textit{MultiChoice}~(Figure~\ref{fig:mcq}), and \textit{FillBlank}~(Figure~\ref{fig:fill}).
+% The system uses issue descriptions and corresponding code diffs as problems and answer keys, respectively.
+% Our responsive design supports use in both desktop computers and mobile devices for learners' flexible microlearning~\cite{gassler2004integrated}.
+% The current prototype supports 51 different programming languages, including markup (e.g., CSS), extension (e.g., Sass), and configuration (e.g., TOML) languages except \textit{FillBlank} (Python only).
+
+\section{単語帳形式}
+
+単語帳のようなフラッシュカードは繰り返し学習のための最も基本的な学習様式であり，特に反復による記憶に効果があることが確認されている~\cite{macquarrie2002comparison}．
+ユーザは問題文と解答コード見比べて読むことにより，演習問題の鍵となる構文（例，関数やAPIなど）を学習することを促す目的でこのインタフェースが提供されている．
+
+% The \textit{FlashCard} interface is the most basic style for repeated learning~\cite{macquarrie2002comparison}.
+% Users can simply review exercises and answer keys like flash cards.
+% But unlike those for other purposes (e.g., vocabulary), it is not intended to make learners remember answer keys verbatim.
+% Instead, learners are encouraged to examine what key components in the answer keys are (e.g., functions and APIs) and focus on remembering them.
+
+\section{選択式}
+
+選択式のインターフェースでは演習問題ごとに解答の候補となる複数の選択肢（3択）を提供する．
+適度な難易度の演習問題にするためには，不正解の選択肢は正解の選択肢の解答コードと似ていながらも異なっている必要がある．
+例えばコメントのみが異なる（正解とすべき正しく動作する）コードを不正解の選択肢として提示した場合，選択式の問題としては不適切となる．
+そこで各演習問題につき2つの適切な不正解の選択肢を生成するために，我々はプログラミング言語ごとにコードの文字列的類似度の上限値を定め，上限値を超えない中で最も類似度の高いコードを不正解の選択肢として提供することとした．
+% \koji{その閾値の設定方法は以下の通りである．
+% はじめに閾値を1に設定する．
+% そして，プログラミング言語ごとにランダムに選択された50問の演習問題の解答コードそれぞれに対し，word-level fuzzy matching~\cite{sankoff1983time}を用いて残りの解答コードとの文字列的類似度を計算する．
+% 次に閾値を超えない中で最も類似度の高かった2つのコードを抽出し，それらが演習問題の解答とはなり得ない事を著者らが確認する．
+% 演習問題の解答となり得ると判断した場合，閾値を0.05小さくしてから，最も類似度の高かった2つのコードが不正解の選択肢となり得るまで以上の処理を繰り返すことで，プログラミング言語ごとに閾値を設定する．
+% 現在のプロトタイプでは閾値の決定を自動で行う事が出来ないため，より自動的に閾値が決定できるようになればRealCodeの拡張性がさらに高まると考えられる．}{ここ理解できない．．．}
+% \shibato{}{「閾値」ではなく，「上限値」を使っています．Added from here...}
+その上限値の設定方法は以下の通りである．
+はじめに上限値を仮に1と設定する．
+次に，ランダムに選択された50問の演習問題の解答コードに対して，その他の全ての演習問題の解答コードとの文字列的類似度をword-level fuzzy matching~\cite{sankoff1983time}により計算する．
+そして，上限値を超えない中で最も類似度の高かった2つのコードが，解答コード例とどの程度異なるかを著者らが判断した．
+2つのコードが正解の選択肢と類似しすぎていた場合，上限値を0.05小さくしてから同様の処理を繰り返す．
+以上の処理をプログラミング言語ごとに行うことで，上限値を決定している．
+現在のプロトタイプでは上限値の決定を自動で行う事ができないため，自動的に上限値が決定できるようになればRealCodeの拡張性がさらに高まると考える．
+% \shibato{}{to here.}
+
+% The \textit{MultiChoice} interface provides a multiple choice problem on a given description.
+% Each exercise contains one true and two false choices.
+% Our system needs to extract plausible false choices to make a problem useful (i.e., non-trivial but different code diffs).
+% %; otherwise, learners can easily guess the true choice and learning effect would be diminished.
+% %However, a very similar false code diff can be another possible answer (e.g., the same code with different variable names).
+% To identify a code diff for plausible false choices, we manually determined a threshold of code similarity for each programming language.
+% Given each answer key for randomly-selected 50 problems, we calculated code similarity with the rest using word-level fuzzy matching~\cite{sankoff1983time}.
+% We then extracted two code diffs that exhibited the highest similarity scores.
+% We manually checked if there were two false choices that were incorrect answer keys.
+% If not, we reduced the threshold by 0.05 (initially set to 1), and iterated the process above until the conditions were met.
+% This process needs to be executed only once before deployment though a more intelligent approach to create false choices is future work.
+% 
+\section{穴埋め式}
+
+穴埋め式のインターフェースでは，ユーザは問題文を読んだ後に解答コード中の空欄に該当するPythonのコードを記述する（例，``for''や``exception''など）．
+RealCodeはPythonで書かれた解答コードの構文木をあらかじめ作成し，その中からランダムに一か所を空欄とする．
+現在のプロトタイプでは穴埋め式のインターフェースはPythonのみ対応しているが，構文解析を導入することで他のプログラミング言語にも対応することができる．
+
+% The \textit{FillBlack} interface offers an advanced exercise by asking learners to fill a blank with a Python syntactic component (e.g., closures).
+% Our system parses Python answer keys, and randomly selects one of components for a blank.
+% Our current implementation supports this mode only in Python although extension to other languages is possible by integrating corresponding parsers.
+
