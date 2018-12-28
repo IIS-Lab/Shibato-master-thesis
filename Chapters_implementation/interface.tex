@@ -7,55 +7,6 @@
 \chapter[インターフェース]{インターフェース}
 \graphicspath{{Chapters_implementation/Figs/}}
 
-% \begin{figure*}[!t]
-% \centering
-% \begin{minipage}{1.0\textwidth}
-%     \centering
-%     \subfloat[単語帳形式]
-%     {
-%         \includegraphics[width=0.33\hsize]{flash-card.png}
-%         \label{fig:flash}
-%     }
-%     \subfloat[選択式]
-%     {
-%         \includegraphics[width=0.33\hsize]{multi-choice.png}
-%         \label{fig:mcq}
-%     }
-%     \subfloat[穴埋め式]
-%     {
-%         \includegraphics[width=0.33\hsize]{fill-blank.png}
-%         \label{fig:fill}
-%     }
-%     \caption{RealCodeが提供する3種類のインターフェース．ユーザは自身の学習計画に応じてこれらのインターフェースを選択することができる．}
-%     \label{fig:system_screens}
-% \end{minipage}
-% \end{figure*}
-
-\begin{figure}[t]
-	\centering
-  \includegraphics[width=1.0\columnwidth]{flash-card.png}
-  \caption{単語帳形式．}
-  \label{fig:flash}
-\end{figure}
-
-\begin{figure}[t]
-	\centering
-  \includegraphics[width=1.0\columnwidth]{multi-choice.png}
-  \caption{選択式．}
-  \label{fig:flash}
-\end{figure}
-
-\begin{figure}[t]
-	\centering
-  \includegraphics[width=1.0\columnwidth]{flash-card.png}
-  \caption{穴埋め式．}
-  \label{fig:fill}
-\end{figure}
-
-
-
-  
-
 
 
 RealCodeは\ref{section:issue-classification}章で転用可能とされたイシューのデータを3種類のインターフェースを通じて演習問題として学習者に提供する事ができる．
@@ -65,14 +16,36 @@ RealCodeではイシューの説明文を問題文として，対応するプル
 システムはデスクトップとモバイルの両方に対応しており，ユーザの柔軟な学習を支援できる\cite{gassler2004integrated}．
 現在のRealCodeには一般的なプログラミング言語（例，Python）に加えて，マークアップ言語（例，CSS）や拡張言語（例，Sass），設定言語（例，TOML）を含む51のプログラミング言語の演習問題が用意されている（但し，穴埋め式のインターフェースはPythonのみ）．
 
+\begin{figure}[H]
+	\centering
+  \includegraphics[width=1.0\columnwidth]{20181228-realcode-interfaces-select.png}
+  \caption{RealCodeのインターフェース選択画面．}
+  \label{fig:interface-selector}
+\end{figure}
 
-% Using issue data after the screening and classification, RealCode provides interfaces to present them to learners as programming exercises (Figure~\ref{fig:system_screens}). 
-% It presents an exercise in a given programming language in three learning interfaces: \textit{FlashCard}~(Figure~\ref{fig:flash}), \textit{MultiChoice}~(Figure~\ref{fig:mcq}), and \textit{FillBlank}~(Figure~\ref{fig:fill}).
-% The system uses issue descriptions and corresponding code diffs as problems and answer keys, respectively.
-% Our responsive design supports use in both desktop computers and mobile devices for learners' flexible microlearning~\cite{gassler2004integrated}.
-% The current prototype supports 51 different programming languages, including markup (e.g., CSS), extension (e.g., Sass), and configuration (e.g., TOML) languages except \textit{FillBlank} (Python only).
 
 \section{単語帳形式}
+
+\begin{figure}[t]
+    \begin{tabular}{cc}
+      %---- Flip card, before ---------------------------
+      \begin{minipage}[t]{1.0\columnwidth}
+        \centering
+        \includegraphics[width=1.0\columnwidth]{20181228-interface-flip-before.png}
+        \subcaption{表側のインターフェース．}
+        \label{fig:flash-before}
+      \end{minipage} \\
+      %---- Flip card, after --------------------------
+      \begin{minipage}[t]{1.0\columnwidth}
+        \centering
+        \includegraphics[width=1.0\columnwidth]{20181228-interface-flip-after.png}
+        \subcaption{裏側のインターフェース．}
+        \label{fig:flash-after}
+      \end{minipage}
+    \end{tabular}
+    \caption{RealCodeの単語帳形式のインターフェース．}
+    \label{fig:flash}
+\end{figure}
 
 単語帳のようなフラッシュカードは繰り返し学習のための最も基本的な学習様式であり，特に反復による記憶に効果があることが確認されている~\cite{macquarrie2002comparison}．
 ユーザは問題文と解答コード見比べて読むことにより，演習問題の鍵となる構文（例，関数やAPIなど）を学習することを促す目的でこのインタフェースが提供されている．
@@ -82,7 +55,14 @@ RealCodeではイシューの説明文を問題文として，対応するプル
 % But unlike those for other purposes (e.g., vocabulary), it is not intended to make learners remember answer keys verbatim.
 % Instead, learners are encouraged to examine what key components in the answer keys are (e.g., functions and APIs) and focus on remembering them.
 
+
 \section{選択式}
+\begin{figure}[t]
+	\centering
+  \includegraphics[width=1.0\columnwidth]{20181228-interface-mcq.png}
+  \caption{選択式．}
+  \label{fig:mcq}
+\end{figure}
 
 選択式のインターフェースでは演習問題ごとに解答の候補となる複数の選択肢（3択）を提供する．
 適度な難易度の演習問題にするためには，不正解の選択肢は正解の選択肢の解答コードと似ていながらも異なっている必要がある．
@@ -117,6 +97,28 @@ RealCodeではイシューの説明文を問題文として，対応するプル
 % This process needs to be executed only once before deployment though a more intelligent approach to create false choices is future work.
 % 
 \section{穴埋め式}
+
+\begin{figure}[t]
+    \begin{tabular}{cc}
+      %---- Flip card, before ---------------------------
+      \begin{minipage}[t]{1.0\columnwidth}
+        \centering
+        \includegraphics[width=0.8\columnwidth]{20181228-interface-fill-blank.png}
+        \subcaption{回答前のインターフェース．}
+        \label{fig:fill-before}
+      \end{minipage} \\ 
+      %---- Flip card, after --------------------------
+      \begin{minipage}[t]{1.0\columnwidth}
+        \vspace{10 mm}
+        \centering
+        \includegraphics[width=1.0\columnwidth]{20181228-interface-fill-blank-after.png}
+        \subcaption{回答後のインターフェース．}
+        \label{fig:fill-after}
+      \end{minipage}
+    \end{tabular}
+    \caption{RealCodeの単語帳形式のインターフェース．}
+    \label{fig:fill}
+\end{figure}
 
 穴埋め式のインターフェースでは，ユーザは問題文を読んだ後に解答コード中の空欄に該当するPythonのコードを記述する（例，``for''や``exception''など）．
 RealCodeはPythonで書かれた解答コードの構文木をあらかじめ作成し，その中からランダムに一か所を空欄とする．
