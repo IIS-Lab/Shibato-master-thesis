@@ -5,7 +5,7 @@
 %****************************** Forth Chapter **********************************
 %*******************************************************************************
 \chapter[演習問題に転用可能なGitHubのイシューの抽出]{演習問題に転用可能なGitHubのイシューの抽出}
-\graphicspath{{Chapter3/Figs/}}
+\graphicspath{{Chapters_implementation/Figs/}}
 
 \label{section:issue-classification}
 
@@ -70,12 +70,25 @@ Up for grabs\footnote{\url{http://up-for-grabs.net}}というウェブサイト�
 GitHubからのデータ収集にはGitHub GraphQL~\footnote{\url{https://developer.github.com/v4/}}を使用した．
 GraphQLではデータの構造とフィールドを指定することで，必要な情報のみを受け取ることができる．
 また，イシューに関連するプルリクエストといった，関連する異なるオブジェクトをも1クエリで取得することができるという特徴をもつ．
-図\ref{table:format_collected_GH_data}に，GraphQLを用いたデータ収集にて使用したデータ構造を示す．
+表\ref{table:format_collected_GH_data}に，GraphQLを用いたデータ収集にて使用したデータ構造を示す．
 型がjsonの項目については，その項目に関する必要な情報がネスト形式で記述されている．
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=1.0\columnwidth]{realcode-data-collector-screenshot.png}
+  \caption{RealCode用のデータ収集管理画面．}
+  \label{fig:realcode-data-collector}
+\end{figure}
+
+図\ref{fig:realcode-data-collector}に，GitHubからのデータ収集を管理するために開発したシステムのインターフェースを示す．
+``Add a job''というタイトルのフォームにて収集するデータのプログラミング言語とイシューのラベルを指定することで，バックグラウンドにてデータ収集のジョブを実行する．
+バックグラウンドでジョブを実行するためにKue\footnote{\url{https://github.com/Automattic/kue}}というライブラリを，ジョブの状態を管理するためにRedis\footnote{\url{https://redis.io/}}というインメモリDBを使用している．
+実行中のジョブは図\ref{fig:realcode-data-collector}の``Running jobs''に，完了したジョブは``Completed jobs''にそれぞれ表示されている．
 
 GraphQLによりイシューと関連するプルリクエストの情報を抽出することができるが，プルリクエストにて行われた実際のコード変更データはGraphQLからは取得することができない．
 GraphQLから収集したイシューについて，gitコマンドを用いて関連するリポジトリとコード変更履歴をクローンし，変更前と変更後のバージョンのコードを比較することでコード変更データを抽出した．
 Pythonからgitコマンドを実行するために，GitPython~\footnote{\url{https://gitpython.readthedocs.io/en/stable/}}を使用した．
+
   
 \section{決定木を用いた転用に適したイシューの抽出}
 

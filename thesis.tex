@@ -176,19 +176,30 @@
 \definecolor{orange}{RGB}{255,127,0}
 \definecolor{limegreen}{RGB}{50, 205, 50}
 \definecolor{violet}{RGB}{148,0,211}
+\definecolor{red}{RGB}{255,0,0}
+\definecolor{blue}{RGB}{0,0,255}
 \newcommand{\xxx}{{\textcolor{red}{\bf XXX }}}
+\newcommand{\XXX}{{\textcolor{red}{\bf XXX }}}
+
+
+\usepackage{lipsum}                     % Dummytext
+\usepackage{xargs}                      % Use more than one optional parameter in a new commands
+
+\usepackage[colorinlistoftodos,prependcaption,textsize=footnotesize]{todonotes}
+\newcommandx{\koji}[2]{\todo[linecolor=blue,backgroundcolor=blue!15,bordercolor=blue]{Koji:\newline #2}{#1}}
+\newcommandx{\daisuke}[2]{\todo[linecolor=orange,backgroundcolor=orange!15,bordercolor=orange]{Daisuke:\newline #2}{#1}}
 
 % make COMMENTS true to enable comments
 \newif\ifCOMMENTS
 \COMMENTStrue
 
-\ifCOMMENTS
-\newcommand{\koji}[2]{\textcolor{violet}{#1\bf{ (Koji: #2)}}}
-\newcommand{\daisuke}[2]{\textcolor{blue}{#1\bf{ (Daisuke: #2)}}}
-\else
-\newcommand{\koji}[2]{#1}
-\newcommand{\daisuke}[2]{#1}
-\fi
+% \ifCOMMENTS
+% \newcommand{\koji}[2]{\textcolor{violet}{#1\bf{ (Koji: #2)}}}
+% \newcommand{\daisuke}[2]{\textcolor{blue}{#1\bf{ (Daisuke: #2)}}}
+% \else
+% \newcommand{\koji}[2]{#1}
+% \newcommand{\daisuke}[2]{#1}
+% \fi
 %%%%%%%%%%%%% IIS Lab macros %%%%%%%%%%%%%%
 
 % ******************************** Front Matter ********************************
@@ -221,12 +232,27 @@
 % ******************************** Main Matter *********************************
 \mainmatter
 
+%#
+%# Introduction chapters
+%############################
 \include{Chapter1/chapter1}
 \include{Chapter2/chapter2}
-\include{Chapter3/chapter3}
-\include{Chapter4/chapter4}
-\include{Chapter5/chapter5}
-\include{Chapter6/chapter6}
+
+
+%#
+%# Implementation chapters
+%############################
+\include{Chapters_implementation/issue_filtering}
+\include{Chapters_implementation/interface}
+
+
+%#
+%# Evaluation chapters
+%############################
+\include{Chapters_evaluation/originality}
+\include{Chapters_evaluation/subjective_eval}
+\include{Chapters_evaluation/categorize_exercises}
+
 \include{Chapter7/chapter7}
 \include{Chapter8/chapter8}
 
