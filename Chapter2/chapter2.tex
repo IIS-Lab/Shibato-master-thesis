@@ -138,7 +138,7 @@ Bissyandeらは，イシューのラベルの種類と使用頻度を明らか�
 
 \section{APIの学習と活用支援}
 
-\daisuke{特に実際のソフトウェア開発では，実装済みであるApplication Programming Interfaces~(API)を活用することが重要である．}{add citation}
+特に実際のソフトウェア開発では，実装済みであるApplication Programming Interfaces~(API)を活用することが重要である．
 しかし，開発者にとってAPIの使用方法を学習し開発に適用することは難しい~\cite{robillard2011field}．
 そこで，APIの学習と活用を支援するための様々な手法が研究されている．
 
@@ -152,21 +152,18 @@ Holmesらの手法では，APIに関する情報だけでなく，親クラス�
 また，ZhongらによるMAPO~\cite{extended_MAPO}では，APIの使用例に加えて，同時に頻繁に使用される他の関数を特定することも可能となっている．
 Bajracharyaらは，ユーザが検索したいAPIと似た機能をもつAPIを提案するシステムを実装した~\cite{Bajracharya:2010:LUS}．
 
-オンラインコミュニティもまた，APIに関する有用な情報源となりうる．
+ユーザが取り組んでいる作業内容と関連するプログラミング学習材料を提供することで，ユーザの適時的な学習を支援する研究も存在する．
+Matejkaらが開発したAmbientHelpは，ユーザがソースコード中で使用しているAPIと関連するオンラインのドキュメントや動画などを提示することで，ユーザの適時的なプログラミング学習を支援するシステムである~\cite{Matejka_Ambient_Help}．
+AmbientHelpのユーザ評価では，ユーザの作業を阻害することなく，2.6倍のプログラミング学習のための有用な情報を提供できることが明らかとなった．
+同様にZolaktaf~\cite{Zolaktaf_Recommending_Commands}らが開発したCoDisは，ユーザのコマンドの使用履歴から，ユーザがまだ知らないと思われるコマンドを提示するシステムである．
+CoDisはユーザが最後に提示されたコマンドを参照した時間から，次に新たなコマンドを提示すべき時間を推定している．
 Cordeiroらは，ユーザが使用しているAPIに関する投稿をStack OverFlowから抽出し，統合開発環境内で提示するシステムを実装した\cite{Cordeiro_2012_extract_QA_SO}．
-
-\daisuke{}{ユーザの行動やコードを用いたAPIのsuggestについて書く．Example Guru もここ．}
-
-
-
-\daisuke{}{発生したエラーから，APIを提案する研究について書く．}
-
-
-
-
-
-
-
+Heinemannらは，ソースコード中の変数名や関数名などから，活用できると推定されたAPIを提示するシステムを開発した~\cite{Heinemann_Identifier_Based_API_Recommendation}．
+例えば``angleDelta''や``getAngle''という名前がコード中に使用されていた場合，システムは``Math.sin ()''や``Math.cos ()''といったAPIの使用を推奨する．
+同様にKawrykowらは，APIによって代替可能な冗長なコードを検出し，ユーザにAPIを提示するシステムを開発した~\cite{Kawrykow_Improving_API_Usage}．
+10つのオープンソフトウェアにおける150万行のソースコードを用いたシステム評価の結果，400以上のAPIによって代替可能な箇所を見つけることに成功した．
+Ichincoらが開発したExample Guruは，ユーザのソースコードと関連するAPIを提示する際に，頻発する誤ったAPIの使用方法も同時に提供することで，ユーザのAPIの学習を支援するシステムである~\cite{Ichinco_Suggesting_API_Usage}．
+ユーザ評価の結果，実験参加者は既存のドキュメントと比較して約2倍Example Guruを参照したことが明らかとなった．
 
 
 \section{チュートリアル系}

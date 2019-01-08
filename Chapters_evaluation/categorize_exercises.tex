@@ -99,14 +99,14 @@ RealCodeの演習問題において特に頻繁に使用されているプログ
         \centering
         \includegraphics[width=1.0\columnwidth]{20190107-lab-study-exception-exercise.png}
         \subcaption{例外処理1．}
-        \label{fig:flash-before}
+        \label{fig:lab-study-eg-exception-1}
       \end{minipage} \\
       %---- Flip card, after --------------------------
       \begin{minipage}[t]{1.0\columnwidth}
         \centering
         \includegraphics[width=1.0\columnwidth]{20190107-lab-study-exception-exercise2.png}
         \subcaption{例外処理2．}
-        \label{fig:flash-after}
+        \label{fig:lab-study-eg-exception-2}
       \end{minipage}
     \end{tabular}
     \caption{例外処理．WIP．}
@@ -115,11 +115,10 @@ RealCodeの演習問題において特に頻繁に使用されているプログ
 
 
 例外処理に関して学ぶことができるとラベル付けされた演習問題には，文字コードのEncodeエラーやネットワークの接続エラーが発生した際の対応策に関するものが多く含まれていた．
-図 \xxx に示す演習問題の例では，\xxx ．
-
+図\ref{fig:lab-study-eg-exception}に示す演習問題の例では，Pythonのtry，catch構文を用いて例外処理に対応している．
 ソフトウェアを本番稼働させるためには，起こりうる例外を想定しあらかじめ対策しておくことが重要であるが，一般的なプログラミング演習問題ではあまり扱われていない．
-RealCodeの例外処理に関する演習問題を通じて，ソフトウェアを本番稼働させた際に発生しうる問題と，その対応策を学ぶことができることが明らかとなった．
-これはRealCode特有の利点であると考えられる．
+RealCodeの例外処理に関する演習問題を通じて，ソフトウェアを本番稼働させた際に発生しうる問題と，その対応策を学ぶことができると考えられる．
+
 
 \subsection{メンテナンスに関連する演習問題}
 
@@ -130,14 +129,24 @@ RealCodeの例外処理に関する演習問題を通じて，ソフトウェア
   \label{fig:lab-study-eg-maintenance}
 \end{figure}
 
+ソフトウェアを安定的に本番稼働させ，障害発生時に迅速に対応するためには，動作中のソフトウェアのログを取得しておくことが重要である．
+図\ref{fig:lab-study-eg-maintenance}に示す演習問題の例では，動作しているソフトウェアのプロセス番号をログに追加するコード変更を行なっている．
+プロセス番号があらかじめ分かっていれば，ソフトウェアの動作状況を監視できると同時に，障害発生時にも速やかな対応を行うことが可能となる．
+RealCodeのメンテナンスに関する演習問題から，ソフトウェアの実装だけでなく，運用していく上での知識も学習できる可能性がある．
+
 \subsection{自分が経験した・見たことのあるbugの解決方法に関連する演習問題}
 
 \begin{figure}[t]
-	\centering
-  \includegraphics[width=1.0\columnwidth]{20190107-lab-study-experience-exercise.png}
+　\centering
+　\includegraphics[width=1.0\columnwidth]{20190107-lab-study-experience-exercise.png}
   \caption{経験．WIP．}
   \label{fig:lab-study-eg-experience}
 \end{figure}
+
+RealCodeの演習問題はGitHub上のデータから生成されており，実際によく発生するバグに対応するためのイシューやプルリクエストが多く含まれている．
+図\ref{fig:lab-study-eg-experience}に示す演習問題では，データベースの名前にピリオドは使用できないという，データベースを扱う際に頻発するバグを取り扱っている．
+このような内容は一般的なプログラミング学習材料では扱われておらず，RealCode特有の演習問題であると言える．
+
 
 \subsection{ライブラリやAPIの使い方に関連する演習問題}
 
@@ -148,6 +157,6 @@ RealCodeの例外処理に関する演習問題を通じて，ソフトウェア
   \label{fig:lab-study-eg-lib}
 \end{figure}
 
-
-
-
+実際のソフトウェア開発では，既に機能がパッケージとして実装されたライブラリを活用することで，開発を効率的に進めている．
+図\ref{fig:lab-study-eg-lib}に示す演習問題の例は，Pythonのseaborn\footnote{\url{https://github.com/mwaskom/seaborn}}というデータの可視化に使用されるライブラリにおける，グラフ表示のAPIの使用方法に関する問題である．
+このように，RealCodeの演習問題を通じて，ライブラリを使用する上で発生しうる問題を学習できる可能性がある．
