@@ -11,6 +11,29 @@
 
 
 
+\section{実現を目指すシステム}
+
+\begin{figure}[tb]
+    \centering
+    \includegraphics[width=0.9\columnwidth]{system_diagram.png}
+    \caption{GitHubのイシューとプルリクエストをプログラミング演習問題へと転用するシステムの概念図．プログラミング演習問題とその解答の説明文を，イシューとプルリクエストの説明文から生成する．さらに解答となるソースコードをプルリクエストのコード変更から生成する．}~\label{fig:system_diagram}
+\end{figure}
+
+現実のソフトウェア開発において行われたソースコードの変更データを収集するために，本研究ではソフトウェア開発を管理するウェブ上のプラットフォームであるGitHub~\footnote{\url{https://github.com}} のイシューとプルリクエストを使用する．
+GitHubが提供するイシューは，ソフトウェア開発における課題を登録し管理する機能である．
+イシューを導入することにより，新機能開発や修正すべきバグといった対応すべき課題を開発チーム内にて円滑に共有することが可能となる．
+イシューはタイトル・説明文・ラベルなどの情報から構成される．
+GitHubのプルリクエストと呼ばれる機能は，イシューを解決するためのコード変更を管理する機能である．
+プルリクエストはタイトルや説明文などのイシューと同様の情報に加えて，イシューを解決するためのコード変更の情報から構成される．
+
+多くのソフトウェア開発者がGitHubを利用しており，2016年9月から1年の間に約1200万件のイシューが作成された~\footnote{\url{https://octoverse.github.com/}}．
+従ってGitHubには実践的なソースコード変更の膨大なデータが蓄積されており，それらプログラミング演習問題を生成し提供することで，より実践的な情報技術の習得を支援することができると考えられる．
+本研究が提案するイシューとプルリクエストをプログラミング演習問題へと転用するシステムの概念図を図\ref{fig:system_diagram}に示す．
+イシューの説明文は対応すべきソフトウェア開発の課題を説明し，その課題を解決するために必要なコード変更はプルリクエストに含まれている．
+プログラミング演習問題も同様に，解答すべき課題の説明と，その解答となるソースコードから構成される．
+従って，イシューとプルリクエストからプログラミング演習問題に適した情報を抽出することで，半自動的にプログラミング演習問題を生成することが出来ると考える．
+
+
 \section{データ収集とヒューリスティクスによる事前処理}
 
 % Our goal is to create programming exercises using issues and code diffs on GitHub, and provide learning experience grounded to real development.
@@ -32,15 +55,49 @@
 \item[H4] \textbf{イシューが説明文を含むこと}: 説明文をプログラミング演習問題の問題文として利用するため，その情報がないイシューは不適切であるため．
 \item[H5]  \textbf{イシューが閉じられており，関連するプルリクエストがマージされていること}: マージはコード変更が開発チームで認めれたものであり，コード変更が適切であることを示すと考えられるため．
 \end{enumerate}
-% Given examples like above, we derived the following heuristics for screening: S1) Issues can be assigned to external developers; S2) Code diffs should be in fewer than 50 lines; S3) Code diffs are affected only in a single file; S4) Issues should contain descriptions; and S5) Issues are closed and associated with successfully-merged pull requests.
 
-% \masaki{Up for grabs\url{http://up-for-grabs.net}}{previewの見た目が合ってなさそう．}
+\begin{figure}[t]
+    \begin{tabular}{c}
+      %-------------------------------
+      \begin{minipage}[t]{0.5\columnwidth}
+        \centering
+        
+        \includegraphics[width=0.95\columnwidth]{histogram_changes.png}
+        \subcaption{コードの変更行数の累積分布．}~\label{fig:histogram_changes}
+      \end{minipage}
+      
+      \hspace{0.05cm}
+      
+      %------------------------------
+      \begin{minipage}[t]{0.5\columnwidth}
+        \centering
+        \includegraphics[width=0.92\columnwidth]{histogram_adds_dels.png}
+        \subcaption{コードの追加および削除行数の累積分布．}~\label{fig:histogram_adds_dels}
+      \end{minipage}
+      
+      \\
+      
+      %------------------------------
+      \begin{minipage}[t]{0.5\columnwidth}
+        \centering
+        \includegraphics[width=1.0\columnwidth]{histogram_changed_files.png}
+        \subcaption{変更ファイル数の累積分布．}~\label{fig:histogram_changed_files}
+      \end{minipage}
+     
+    \end{tabular}
+    \caption{プルリクエストによって変更されたコード変更の行数，追加および削除行数，および変更ファイル数の累積分布．}
+\end{figure}
+
 Up for grabs\footnote{\url{http://up-for-grabs.net}}というウェブサイトでは，リポジトリ外部の開発者であっても取り組むことができるイシューを列挙している．
 我々はこのウェブサイトが掲載しているラベル（例えば``good first issue''や``help-wanted''）が付けられているイシューのみを利用することで，H1を適応することとした．
-% \masaki{ラベル付け(例えば``good first issue''や``help-wanted'')を利用することで，}{「ラベル付けを含むイシューのみを利用する」とかの方が理解しやすい？}R1を適応することとした．
-% 2018年3月12日の時点で更新が新しい順に3,000件のリポジトリから，Up for grabsが利用しているラベル付けを含むイシューを取得し，さらにR2からR5を適応した結果，6,381件のイシューと関連するプルリクエストを抽出した．
-2018年3月12日の時点で更新が新しい順に3,000件のリポジトリから，Up for grabsが利用しているラベルを含むイシューを取得した．
-そしてそれらのイシューにH2からH5を適用した結果，6,381件のイシューと関連するプルリクエストを抽出した．
+また，データ収集時にクエリを使用することで，H4とH5に対応した．
+その結果，2018年3月12日の時点で更新が新しい順に3,000件のリポジトリから，H1，H4，H5を満たすイシューと関連するプルリクエストを取得した．
+% 成果輪講の話
+次に，H2とH3を満たすイシューがどの程度存在するのかを検証するために，収集したプルリクエストにて行われたコードの変更行数の分析を行った．
+プルリクエスト内にて変更された行数の累積分布を図\ref{fig:histogram_changes}に，追加・削除された行数の累積分布を図\ref{fig:histogram_adds_dels}に，変更されたファイル数の分布を図\ref{fig:histogram_changed_files}に示す．
+以上の分析により，GitHubから収集したイシューと関連するプルリクエストのうち6,381件（1.6\%）がH2とH3を満たすことが明らかとなった．
+それらのイシューを抽出することでデータセットを構築した．
+% そしてそれらのイシューにH4とH5を適用した結果，6,381件のイシューと関連するプルリクエストを抽出した．
 
 % Data collecting
 %%%%%%%%%%%%%%%%%%%
