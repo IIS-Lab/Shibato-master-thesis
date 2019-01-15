@@ -102,6 +102,14 @@ Up for grabs\footnote{\url{http://up-for-grabs.net}}というウェブサイト�
 % Data collecting
 %%%%%%%%%%%%%%%%%%%
 
+
+\begin{figure}[tb]
+    \centering
+    \includegraphics[width=1.0\columnwidth]{GitHub_api_explorer.png}
+    \caption{GitHub GraphQL API Explorer~\footnote{\url{https://developer.github.com/v4/explorer/}}にて，データ収集用のクエリを実装している様子．左のエディタ上で実装したクエリを実行した結果が中央に表示されている．また，使用可能なスキーマやフィールドのドキュメントを右側のパネルで閲覧できる． }~\label{fig:GitHub_api_explorer}
+\end{figure}
+
+
 \begin{table}[t]
 
   \centering
@@ -129,7 +137,7 @@ Up for grabs\footnote{\url{http://up-for-grabs.net}}というウェブサイト�
 GitHubからのデータ収集にはGitHub GraphQL~\footnote{\url{https://developer.github.com/v4/}}を使用した．
 GraphQLではデータの構造とフィールドを指定することで，必要な情報のみを取得することができる．
 また，イシューに関連するプルリクエストといった，関連する異なるオブジェクトをも1クエリで取得することができるという特徴をもつ．
-表\ref{table:format_collected_GH_data}に，GraphQLを用いたデータ収集にて使用したデータ構造を示す．
+図\ref{fig:GitHub_api_explorer}にGitHub GraphQL API Explorer~\footnote{\url{https://developer.github.com/v4/explorer/}}にてクエリを実装している様子を，表\ref{table:format_collected_GH_data}にデータ収集にて使用したデータ構造を示す．
 型がjsonの項目については，その項目に関する必要な情報がネスト形式で記述されている．
 
 \begin{figure}[t]
