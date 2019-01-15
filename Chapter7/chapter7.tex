@@ -5,12 +5,29 @@
 \chapter{考察}
 \graphicspath{{Chapter7/Figs/}}
 
-% Discussion
+\section{プログラミング演習問題への転用に適したイシューの抽出手法に関する考察}
 
 GitHubの膨大なイシューのデータから，プログラミング演習問題への転用に適さないイシューを分類するために，我々はヒューリスティックにより事前処理と決定木によるイシューの分類を行った．
 決定木の精度を評価した結果，F値の平均が0.79の精度で転用に適さないイシューを取り除くことができた．
 また，決定木による分類においては，変更行数が重要な特徴量であることが明らかとなった．
-今後，イシューの説明文やコード変更内容に関する特徴量を新たに用いることで，より精度の高い分類器を実装できる可能性がある．
+今後，イシューの説明文に関する特徴量を新たに用いることで，より精度の高い分類器を実装できる可能性がある．
+プログラミング演習問題への転用に適さないと判断されたイシューの例として，解決すべき問題点が記述されていなかったり，説明文にリポジトリ特有の専門用語が多く含まれていたりといった特徴が散見された．
+これらは例えばWord2Vecベクトル~\cite{word2vec}やtf--idf値~\cite{TFIDF}を特徴量に追加し，再帰的な構造をもつニューラルネットワークを用いて学習することで解決できる可能性がある~\cite{RNN_clasification}．
+また，イシューの説明文のマークダウンを解析することで，分類器の制度を向上することができると考えられる．
+例えば箇条書きやヘッダーを含むイシューは，ユーザにとって理解が容易であると考えられる．
+また，イシューの説明文に添付されていた画像の多くはバグの様子を示すスクリーンショットであったため，画像もまたユーザのイシューの理解を支援できる可能性がある．
+このような特徴を分類器に与えることで，更なる分類器の精度向上が期待される．
+加えて，コード変更を構文解析した結果も分類器を改善する上で重要な特徴量となりうる．
+例えばリファクタリングのみから構成されるイシューは，構造的変更ではなく，かつ反復的なコード変更であることが予想される．
+このような特徴量を抽出することで，プログラミング演習問題への転用には適さないコード変更を除去できると考えられる．
+
+イシューやコード変更だけでなく，リポジトリに関する特徴もまたデータセットを構築する上で有用な特徴量となりうる．
+GitHubにはWebサービスやCLIアプリケーションなど様々なソフトウェアが存在する．
+従って，どのリポジトリからイシューを取得するかによって，生成される演習問題の傾向が変化すると考えられる．
+現在のRealCodeではデータ取得時に更新が新しい順に3,000件のリポジトリからデータセットを構築しているが，与えるリポジトリの分類を制限することで，焦点を絞ったプログラミング演習問題を生成できると考える．
+さらに，リポジトリの分類をユーザが自由に選択できるようになれば，ユーザの興味に基づいた適応的なプログラミング演習問題生成システムを実現できる可能性がある．
+
+
 
 % Our quantitative examinations found a decision tree to select GitHub issues and code diff appropriate to repurpose to programming exercises.
 % In particular, the numbers of lines in code diffs is the primary feature for classification.
@@ -22,6 +39,8 @@ GitHubの膨大なイシューのデータから，プログラミング演習�
 % Research may need an approach that exploits information in both issue descriptions and code diffs to identify valid exercises.
 % This is a unique problem in a system like RealCode, and our work encourages future work to further investigate.
 
+\section{システム評価の考察}
+
 RealCodeが出題する演習問題の独自性評価から，GitHubのイシューを演習問題に転用する事で実現されたRealCodeの特徴が明らかとなった．
 特に「本番環境におけるバグの影響を実感できる」という項目は実験参加者から多くの同意を得られた．
 既存の学習環境とは異なり，本番環境ではソースコード中のバグがシステム障害やビジネスへの影響に直結する．
@@ -32,8 +51,6 @@ RealCodeの演習問題では，バグが引き起こす影響の大きさを体
 
 
 
-
-
 8人の学生に対するRealCodeに関するインタビューにおいて，実験参加者らはRealCodeが出題する演習問題が実践的であると指摘した．
 特に授業で扱われているプログラミングと実際のソフトウェア開発の違いがインタビューから明らかとなった．
 RealCodeの演習問題のさらなる検証が必要ではあるものの，RealCodeが出題する演習問題では既存の学習環境にはない内容を提供可能である事が分かった．
@@ -41,6 +58,9 @@ RealCodeの演習問題のさらなる検証が必要ではあるものの，Rea
 % The informal qualitative study uncovered participants' agreement on perceived uniqueness RealCode exercises demonstrate.
 % They appreciated connections with real-world development, and it is exactly the outcome this work aims at.
 % Although future work needs further validations, we show a strong potential of RealCode in capabilities to offer programming exercises that are not commonly available in existing learning materials.
+
+
+\section{今後の課題}
 
 
 一方，本研究にはさらなる検証や改良を要する点が存在する．

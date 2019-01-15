@@ -96,19 +96,19 @@ RealCodeではイシューの説明文を問題文として，対応するプル
 % If not, we reduced the threshold by 0.05 (initially set to 1), and iterated the process above until the conditions were met.
 % This process needs to be executed only once before deployment though a more intelligent approach to create false choices is future work.
 % 
-\section{穴埋め式}
 
-\begin{figure}[t]
+
+\begin{figure}[H]
     \begin{tabular}{cc}
       %---- Flip card, before ---------------------------
-      \begin{minipage}[t]{1.0\columnwidth}
+      \begin{minipage}[t]{0.9\columnwidth}
         \centering
-        \includegraphics[width=1.0\columnwidth]{20181228-interface-fill-blank.png}
+        \includegraphics[width=0.9\columnwidth]{20181228-interface-fill-blank.png}
         \subcaption{回答前のインターフェース．}
         \label{fig:fill-before}
       \end{minipage} \\ 
       %---- Flip card, after --------------------------
-      \begin{minipage}[t]{1.0\columnwidth}
+      \begin{minipage}[t]{0.9\columnwidth}
         \vspace{10 mm}
         \centering
         \includegraphics[width=1.0\columnwidth]{20181228-interface-fill-blank-after.png}
@@ -119,6 +119,8 @@ RealCodeではイシューの説明文を問題文として，対応するプル
     \caption{RealCodeの単語帳形式のインターフェース．}
     \label{fig:fill}
 \end{figure}
+
+\section{穴埋め式}
 
 穴埋め式のインターフェースでは，ユーザは問題文を読んだ後に解答コード中の空欄に該当するPythonのコードを記述する（例，``for''や``exception''など）．
 RealCodeはPythonで書かれた解答コードの構文木をあらかじめ作成し，その中からランダムに一か所を空欄とする．
