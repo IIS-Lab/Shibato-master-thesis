@@ -113,7 +113,7 @@ Up for grabs\footnote{\url{http://up-for-grabs.net}}というウェブサイト�
       author & json & ユーザ名やユーザページのURLなど\\
       body & string & イシューの説明文  \\
       bodyHTML & string & HTML表記でのイシューの説明文 \\
-      comments & json & 本文や作成者の情報など \\
+      comments & [json] & コメントの本文や作成者の情報など \\
       createdAt & datetime & イシューが作成された日時 \\
       labels & [json] & イシューに付与されているラベルに関する情報 \\
       repository & json & リポジトリ名やURL，主要な開発言語など\\  
@@ -127,7 +127,7 @@ Up for grabs\footnote{\url{http://up-for-grabs.net}}というウェブサイト�
 \end{table}
 
 GitHubからのデータ収集にはGitHub GraphQL~\footnote{\url{https://developer.github.com/v4/}}を使用した．
-GraphQLではデータの構造とフィールドを指定することで，必要な情報のみを受け取ることができる．
+GraphQLではデータの構造とフィールドを指定することで，必要な情報のみを取得することができる．
 また，イシューに関連するプルリクエストといった，関連する異なるオブジェクトをも1クエリで取得することができるという特徴をもつ．
 表\ref{table:format_collected_GH_data}に，GraphQLを用いたデータ収集にて使用したデータ構造を示す．
 型がjsonの項目については，その項目に関する必要な情報がネスト形式で記述されている．

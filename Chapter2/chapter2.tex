@@ -10,28 +10,15 @@
 %
 \section{プログラミング演習問題の自動生成}
 プログラミング演習問題はソフトウェア開発に関するスキル向上を目指して，プログラミング教育において広く利用されている．
-しかし，一般的にプログラミング演習問題の作成は時間がかかる上に，専門知識を必要とするため，多様な演習問題を数多く作成することは大変な労力を必要とする．
+しかし，一般的にプログラミング演習問題の作成は時間がかかる上に，専門知識を必要とするため，多様な演習問題を数多く作成することは大変な労力を必要とする~\cite{Guo_Codeopticon}．
 そこで，プログラミング演習問題を自動的に生成する手法が研究されている．
 Pradosらは，テンプレートの書き換えによるプログラミング演習問題の自動生成システムを開発した~\cite{prados_automatic_exercise_generation}．
 このシステムでは，ユーザが登録したテンプレートとなるソースコード内の変数の値や関数の入力を異なる値に書き換えることで，プログラミング演習問題を自動的に生成する．
 同様の手法により，Sadighらは，プログラミングに関する教科書の例題を活用し，演習問題を自動生成する手法を開発した~\cite{Sadigh_automatic_exercise_generation}．
 このシステムでは教科書の例題を抽象化することで，演習問題のテンプレートを作成しており，Pradosらのシステムと同様にテンプレートの値を書き換えることで，演習問題を生成している．
-% \shibato{}{double-check}
-% \sakaguchi{}{一方で（？）}ZavalaらはAutomatic Item Generationを利用してプログラミング演習を自動生成する手法を開発した~\cite{Zavala_Semantic_Based_AIG}．\koji{}{Automatic Item Generationとはなにか？}
-% Zavalaらの手法では，同じテンプレートに基づいて\sakaguchi{異なる問題の定式化を含む演習}{これがよくわからなかったです…}を作成するために， Linked Open Dataを使用した．
-% \sakaguchi{}{各研究間でどんな繋がりがあるかを示す簡単な言葉があった方が読みやすいと思うのですが書かないのが一般的であればそれでいいと思います}
-% \koji{}{つなげてください．今のは箇条書きになっている．}
-%Prior research has explored template-based methods for automated exercise creation.
-% In Prados et al.'s system~\cite{prados_automatic_exercise_generation}, an instructor first creates a template with variables and formulae.
-% Their system then generates different exercises by replacing these variables and formulae with other values.
-% % Another method developed by Sadigh et al.~\cite{Sadigh_automatic_exercise_generation} generalizes programming exercises in a textbook to a single template by doing \xxx.
-% Another method developed by Sadigh et al.~\cite{Sadigh_automatic_exercise_generation} converts example programming exercises in a textbook to problem template.
-% They also adapted formal verification methods to generate problems and solutions from such templates.
-% Zavala et al.~\cite{Zavala_Semantic_Based_AIG} applied Automatic Item Generation to create programming exercises.
-% Their method used Linked Open Data to create exercises that are based on the same template but include different problem formulation.
-
-https://dl.acm.org/citation.cfm?id=2702580
-簡単な加減乗除の問題（チュートリアル？）を自動生成．
+O'Rourkeらは，加減乗除を実行するプログラムからインタラクティブなプログラミング学習材料を自動生成するシステムを開発した~\cite{O'Rourke_Scaffolding_CHI15}．
+本システムでは，加減乗除を筆算により計算する様子を示すインターフェースが提示される．
+プログラムの各行とシステム上の構成要素が紐づけられているため，プログラムの動作を段階的に表現することが可能となっている．
 
 上記の手法とは異なり，本研究はGitHub上に実在するイシューとプルリクエストのデータを転用することにより，プログラミング演習問題を生成することを目指す．
 同時に，GitHub上のデータを利用することにより，一般的な教科書では扱われていない内容を学ぶことができるプログラミング演習問題を学習者に提供することを目指している．
@@ -52,14 +39,16 @@ https://dl.acm.org/citation.cfm?id=2702580
 % Programming learning using Q&A websites, such as Stack Overflow.
 %
 
-StackOverflow\footnote{\url{https://stackoverflow.com/}}などに代表されるオンラインコミュニティでは，プログラミングに関する質問やその回答となるコードが共有されており，多くのソフトウェア開発者にとって有益な学習素材となっている~\cite{Mamykina_Design_SO}．
-% 先行研究により，ソフトウェア開発者はプログラミングを学ぶためにStackOverflowのようなオンラインコミュニティに参加している~\cite{Mamykina_Design_SO}．
-% しかし，\koji{学習内容に応じた知見を含む}{意味が通じていない}投稿を検索するには手間がかかる．
-しかし，ユーザが学習している内容と関連する投稿を検索するには手間がかかる．
-そこでGottipatiらは，プログラミングに関するオンラインコミュニティ上での投稿を，説明文及び投稿のタグを解析することで分類するモデルを実装した~\cite{Gottipati_finding_resource}．
+Stack Overflow\footnote{\url{https://stackoverflow.com/}}などに代表されるオンラインコミュニティでは，プログラミングに関する質問やその回答となるコードが共有されており，多くのソフトウェア開発者にとって有益な学習素材となっている~\cite{Mamykina_Design_SO}．
+そこでSubramanianら~\cite{Live_in_Documentation}は，APIとStack Overflow上の投稿のコード例を紐付けるアルゴリズムを実装した．
+またTreudeら\cite{Augmenting_API_Documentation}は，教師あり学習を用いてStack Overflowからユーザのソースコードに関連する情報を抽出する手法を実装し，教師なし学習を用いた手法と比較してより多くの有用な情報をStack Overflowから抽出できることを明らかにした．
+
+Stack Overflowはプログラミング学習において有用な情報源となりうる可能性があるが，ユーザが学習している内容と関連する投稿を検索するには手間がかかる．
+そこでにGottipatiらは，プログラミングに関するオンラインコミュニティ上での投稿を，説明文及び投稿のタグを解析することで分類するモデルを実装した~\cite{Gottipati_finding_resource}．
 モデルの精度評価を行った結果，学習内容に関連する投稿を通常の検索エンジンと比較してより素早く見つけることが出来ることが明らかとなった．
 Sillitoらは，プログラミング学習に有用な投稿を定義するために，StackOverflowにおいて質問投稿者が最も優れているとして選択された回答の特徴を分析した~\cite{StackOverflowCodeExample}．
 その結果，簡単なコードの例があることと背景知識が明確に記されていることが，有用だと評価を受けた回答の特徴であることを明らかにした．
+
 
 % Online programming communities (e.g., StackOverflow\footnote{\url{https://stackoverflow.com/}}) share questions and possible code solutions, which can serve as a learning resource for non-expert programmers.
 % Prior work has revealed that developers often read on these websites to learn an API method or a programming language~\cite{Mamykina_Design_SO}.
@@ -124,12 +113,22 @@ RealCodeでは，そのようなキーワードの知識がなくとも，実際
 
 GitHubでは多くのソフトウェア開発プロジェクトがリポジトリとして管理されており，開発上の課題管理ツールとしてイシューが利用されている．
 ソフトウェア開発プロセスの理解と改善を目的として，イシューの大規模な分析を行った研究がいくつか報告されている．
+Vasilescuらはイシューを開発に導入しているリポジトリの特徴を明らかにするために，GitHub上の223のリポジトリを対象としたデータ分析を行った~\cite{Continuous_Integration_in_a_Social_Coding_World}．
+その結果，PythonまたはRubyで開発されているリポジトリの多くが，イシューとプルリクエストを用いた開発を行っていることが分かった．
 Mantylaらはイシューの重要性を判定するために， Software Engineering Arousal（SEA）語彙集と，Warrinerらによる一般向けの語彙集を組み合わせた語彙集を作成した~\cite{Mantyla:issue:word:list}．
 新たに作成された語彙集を用いて実装されたイシューの重要度判定器は，既存の語彙集を単体で使用した判定器よりも高い判定精度を示した．
 Bissyandeらは，イシューのラベルの種類と使用頻度を明らかにするために，10万以上のリポジトリにおけるイシューのラベルの分析を行った~\cite{Bissyande:gh:issues}．
 その結果，バグまたは新機能に関するラベルが最も頻繁に使用されていることが明らかとなった．
 またKalyanasundaramらは，bootstrapのリポジトリ\footnote{\url{https://github.com/twbs/bootstrap}}におけるイシューの自動ラベリングを実装した~\cite{kalyanasundaram2014automatic}．
 この研究ではイシューのタイトルと説明文をナイーブベイズ分類器で学習させることで，85\%の精度でbootstrapのリポジトリのイシューのラベルを推定することができた．
+
+GitHubのイシューは開発における課題管理だけでなく，オープンソースソフトウェア（OSS）開発参加の入り口としても活用されている．
+外部の開発者の参加を奨励するリポジトリでは，誰でもイシューを作成したり，公開されているイシューに取り組みプルリクエストを送信したりすることができる．
+先行研究では，こうしたGitHubを中心とする共同開発に関する分析が報告されている．
+Dabbishらはリポジトリ管理者にとってOSS開発を導入する利点を明らかにするために，OSSのリポジトリ管理者24人にインタビュー調査を行った~\cite{Social_Coding_in_GitHub}．
+その結果，OSS開発を導入することで，開発しているシステムに対するユーザのニーズの理解や，ソフトウェア開発者の採用活動を円滑に行えることが明らかとなった．
+またThungらは，OSS開発の導入により外部開発者とどの程度繋がりを作ることができるのかを明らかにするために，100,000のリポジトリと30,000人の開発者のデータの分析を行った．
+その結果，OSS開発を推奨するリポジトリの管理者は，多くの外部開発者とコネクションを作ることに成功していることが分かった~\cite{Network_Structure_of_Social_Coding}．
 
 このように，ソフトウェア開発プロセスの改善を目的として，これまでにGitHubのイシューの大規模な分析が行われてきた．
 一方で本研究では，プログラミング演習問題への転用を目的として，GitHubのイシューの抽出および分類を行うため，新たな分類手法が必要となる．
@@ -138,7 +137,7 @@ Bissyandeらは，イシューのラベルの種類と使用頻度を明らか�
 
 \section{APIの学習と活用支援}
 
-特に実際のソフトウェア開発では，実装済みであるApplication Programming Interfaces~(API)を活用することが重要である．
+特に実際のソフトウェア開発では，実装済みであるApplication Programming Interfaces~(API)を活用することが重要である~\cite{Patterns_for_API_migration}．
 しかし，開発者にとってAPIの使用方法を学習し開発に適用することは難しい~\cite{robillard2011field}．
 そこで，APIの学習と活用を支援するための様々な手法が研究されている．
 
@@ -165,30 +164,12 @@ Heinemannらは，ソースコード中の変数名や関数名などから，�
 Ichincoらが開発したExample Guruは，ユーザのソースコードと関連するAPIを提示する際に，頻発する誤ったAPIの使用方法も同時に提供することで，ユーザのAPIの学習を支援するシステムである~\cite{Ichinco_Suggesting_API_Usage}．
 ユーザ評価の結果，実験参加者は既存のドキュメントと比較して約2倍Example Guruを参照したことが明らかとなった．
 
-
-\section{チュートリアル系}
-
-ここでいうチュートリアルとは，単にコードの解説であることに注意．
-
-\subsubsection*{Automatically generating tutorials to enable middle school children to learn programming independently (https://dl.acm.org/citation.cfm?id=2485760.2485764)}
-
-the Looking Glass [28] programming environment 上のコード断片を自分のソースコードにreapplyするためのチュートリアルを自動作成？
-構文の解説を自動生成している．また，reapplyするために変数の抽象化や，自分のソースコードとのマッチをやってる．
-
-コード断片のreapplyの成功率が64\%改善した．
-
-\subsubsection*{Suggesting API Usage to Novice Programmers with the Example Guru}
-https://dl.acm.org/citation.cfm?id=3025827
-2017, CHI
-この論文の関連研究をまとめるべき．
-
-
-\subsubsection{まとめ}
-
-チュートリアルは inactive learning．RealCode は active learning.
-
+このようにAPIの学習と活用支援を目的とした様々な手法が提案されてきた．
+一方で本研究では，APIのみならず，実践的なソフトウェア開発において必要な知識を学習することができるプログラミング演習問題を提供することを目的とする．
 
 
 \section{まとめ}
-まとめ
-
+これまでに提案されたプログラミング演習問題の自動生成手法は，テンプレートの書き換えや教科書の例題の活用によって実現されており，実際のソフトウェア開発において必要な知識の習得には焦点を当てていない．
+また，多くのソフトウェア開発プロジェクトが活用しているGitHubの理解を目的とした研究がこれまでに行われてきたが，GitHubのデータを教育目的に転用することの実現可能性は明らかとなっていない．
+そこで本研究では，GitHub上に実在するイシューとプルリクエストを転用することで，実践的なプログラミング演習問題を提供することを目的とする．
+本研究により既存の学習環境にはない独自の演習問題を生成できるようになることが期待される．
