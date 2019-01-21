@@ -106,7 +106,7 @@ Up for grabs\footnote{\url{http://up-for-grabs.net}}というウェブサイト�
 \begin{figure}[tb]
     \centering
     \includegraphics[width=1.0\columnwidth]{GitHub_api_explorer.png}
-    \caption{GitHub GraphQL API Explorer~\footnote{\url{https://developer.github.com/v4/explorer/}}にて，データ収集用のクエリを実装している様子．左のエディタ上で実装したクエリを実行した結果が中央に表示されている．また，使用可能なスキーマやフィールドのドキュメントを右側のパネルで閲覧できる． }~\label{fig:GitHub_api_explorer}
+    \caption{GitHub GraphQL API Explorer~\footnote{\url{https://developer.github.com/v4/explorer/}}にて，データ収集用のクエリを実装している様子．左のエディタ上で実装したクエリを実行した結果が中央に表示されている．また，使用可能なスキーマやフィールドのドキュメントを右側のパネルで閲覧できる．}~\label{fig:GitHub_api_explorer}
 \end{figure}
 
 
@@ -283,8 +283,70 @@ Pythonからgitコマンドを実行するために，GitPython~\footnote{\url{h
 この決定木を用いたフィルタリングは完全ではないが，F値の平均が0.79の精度でプログラミング演習問題への転用に適さないイシューを取り除くことができており，現在のプロトタイプに導入することとした．
 この決定木により，6,381件中の2,592件のイシューと関連するプルリクエストが転用に適すると判断され，現在のRealCodeのシステムにおいてプログラミング演習問題に使用されている．
 
-% As the classification above reasonably removes invalid exercises, we decided to incorporate this decision tree.
-% Applying this decision tree, we obtained 2,592 issues and associated code diffs, and imported to RealCode.
+
+
+\section{構築したデータセットの分析}
+
+\subsection{リポジトリ}
+
+
+
+
+\begin{table}[t]
+  \centering
+  \caption{構築したRealCode用データセットのリポジトリに関する各種統計量}
+  \label{table:stats_repos}
+    
+  \begin{tabular}{c || c | c | c | c | c | c | c } \Xhline{3\arrayrulewidth}
+        & commits & issues & pullRequests & languages & forks & stargazers & watchers \\ \hline
+    % count & 458 & 466 & 466 & 466 & 466 & 466 & 466 \\
+    mean & 4337.33 & 1188.29 & 1022.16 & 4.95 & 780 & 4165.52 & 200.94 \\
+    std & 7797.91 & 1728.25 & 1439.18 & 4.36 & 1230.71 & 5645.54 & 260.31 \\
+    min & 35 & 0 & 3 & 0 & 1 & 8 & 2 \\
+    25\% & 727.25 & 239.25 & 191.5 & 3 & 174.25 & 823 & 56.25 \\
+    50\% & 1795.5 & 582 & 524 & 4 & 422 & 2405.5 & 121.5 \\
+    75\% & 4948.75 & 1422.25 & 1223.25 & 6 & 909.75 & 4806.75 & 230.75 \\
+    max & 114532 & 14464 & 15442 & 52 & 13261 & 43610 & 2231 \\
+    \Xhline{3\arrayrulewidth}
+\end{tabular}
+\end{table}
+
+
+\begin{table}[t]
+\small
+  \centering
+  \caption{リポジトリのトピックの頻度TOP100 WIP.}
+  \label{table:repo_topic_freq}
+  \begin{tabular}{ c | c || c | c || c | c || c | c} \Xhline{3\arrayrulewidth}
+トピック名 & 頻度 &  &  &  &  &  & \\ \hline \hline
+python & 68 & django & 7 & symfony & 5 & jupyter & 4 \\
+javascript & 54 & typescript & 7 & babel & 5 & awesome-list & 4 \\
+react & 18 & game-engine & 7 & automation & 5 & golang & 4 \\
+php & 17 & machine-learning & 7 & browser & 5 & electron & 4 \\
+go & 13 & java & 7 & server & 5 & monitoring & 4 \\
+swift & 13 & html & 7 & documentation & 5 & dotnet & 4 \\
+android & 13 & database & 6 & performance & 5 & csharp & 4 \\
+nodejs & 12 & gamedev & 6 & awesome & 5 & package-manager & 4 \\
+ios & 11 & data-science & 6 & mongodb & 5 & list & 4 \\
+linux & 11 & kubernetes & 6 & visualization & 5 & eslint & 4 \\
+docker & 10 & api & 6 & theme & 5 & metrics & 4 \\
+ruby & 9 & github & 6 & testing & 5 & rest & 4 \\
+rust & 9 & security & 6 & sass & 5 & blockchain & 4 \\
+c-sharp & 9 & rails & 6 & git & 5 & ecommerce-platform & 3 \\
+containers & 9 & tls & 6 & cms & 4 & macos & 3 \\
+css & 8 & redux & 6 & artificial-intelligence & 4 & cpp & 3 \\
+web & 8 & flask & 6 & es6 & 4 & swift-library & 3 \\
+python3 & 8 & terminal & 6 & irc & 4 & privacy & 3 \\
+c-plus-plus & 8 & cli & 6 & laravel & 4 & cncf & 3 \\
+framework & 8 & scala & 6 & shell & 4 & selenium & 3 \\
+wordpress & 8 & game-development & 5 & visual-studio & 4 & web-framework & 3 \\
+http & 8 & github-api & 5 & ecommerce & 4 & development & 3 \\
+c & 7 & linter & 5 & functional-programming & 4 & plotting & 3 \\
+node & 7 & gui & 5 & open-source & 4 & rest-api & 3 \\
+windows & 7 & react-native & 5 & p2p & 4 & kotlin & 3 \\
+\Xhline{3\arrayrulewidth}
+\end{tabular}
+\end{table}
 
 
 
@@ -292,4 +354,124 @@ Pythonからgitコマンドを実行するために，GitPython~\footnote{\url{h
 
 
 
+\subsection{イシュー・プルリクエスト}
 
+\begin{itemize}
+    \item プログラミング言語ごとの問題数
+    \item コミット数
+    \item 
+\end{itemize}
+
+\begin{table}[t]
+
+  \centering
+  \caption{構築したRealCode用データセットのイシューに関する各種統計量．}
+  \label{table:stats_repos}
+    
+  \begin{tabular}{c || c | c | c | c | c } \Xhline{3\arrayrulewidth}
+        & additions & deletions & commits & comments & changedLines \\ \hline \hline
+    mean & 4.5 & 1.79 & 1.12 & 2.02 & 5.69 \\
+    std & 5.44 & 1.53 & 0.12 & 2.6 & 5.65 \\
+    min & 0 & 0 & 1 & 0 & 0 \\
+    25\% & 1 & 0 & 1 & 1 & 2 \\
+    50\% & 7 & 3 & 1 & 1 & 4 \\
+    75\% & 11 & 6 & 1 & 3 & 7 \\
+    max & 48 & 8 & 3 & 28 & 50 \\
+    
+    \Xhline{3\arrayrulewidth}
+\end{tabular}
+\end{table}
+
+
+\begin{table}[t]
+\small
+  \centering
+  \caption{イシューのラベルの頻度表TOP100．WIP．}
+  \label{table:issue_label_freq}
+  \begin{tabular}{ c | c || c | c || c | c } \Xhline{3\arrayrulewidth}
+トピック名 & 頻度 &  &  &  &  \\ \hline \hline
+help wanted & 889 & Missing Documentation & 24 & Good first issue & 12 \\
+good first issue & 526 & kind/enhancement & 24 & Priority: High & 12 \\
+bug & 339 & question & 23 & release_note:enhancement & 12 \\
+enhancement & 224 & Good for New Contributors & 22 & small & 11 \\
+easy & 165 & trivial & 22 & cleanup & 11 \\
+Bug & 154 & welcome contribute & 21 & low-hanging-fruit & 10 \\
+E-easy & 122 & Junior & 20 & cosmetic & 10 \\
+up for grabs & 104 & help-wanted & 20 & component: documentation & 10 \\
+Actionable & 94 & P-low & 20 & C-chore & 10 \\
+low hanging fruit & 84 & in-progress & 19 & priority: 2 - low & 10 \\
+beginner & 79 & Design & 18 & L-rust & 10 \\
+I-bug & 70 & Type: Enhancement & 18 & A-builder & 10 \\
+up-for-grabs & 67 & easy pickings & 18 & type - bug & 10 \\
+Hacktoberfest & 63 & category - doc & 18 & type: bug & 10 \\
+docs & 61 & Status: Available & 17 & v4.1.0 & 10 \\
+Help Wanted & 60 & type: documentation & 16 & minor & 10 \\
+Low-Hanging Fruit & 59 & Type: Bug & 16 & comp: help & 10 \\
+hasPR & 54 & Form & 16 & priority: minor & 10 \\
+documentation & 54 & Documentation & 16 & component/host & 9 \\
+Easy & 53 & Enhancement & 16 & p2 & 9 \\
+Easy Pick & 45 & junior job & 15 & difficulty/newcomer & 8 \\
+I-ui & 40 & difficulty: easy & 15 & ruby 2.0-2.2 & 8 \\
+effort/easy & 38 & UX & 15 & proposal & 8 \\
+first-timers-only & 33 & ui & 15 & JRuby 9000 & 8 \\
+complexity/easy & 31 & Ready for PR & 14 & Console & 8 \\
+C-bug & 30 & A-headers & 14 & Validator & 8 \\
+kind/bug & 29 & Improvement & 14 & broken site & 8 \\
+feature & 27 & type:bug & 13 & Mend It Monday & 8 \\
+PR sent & 26 & easy fix & 13 & Grooming & 8 \\
+hacktoberfest & 26 & Feature & 13 & cmake & 8 \\
+easy-fix & 25 & newbie & 13 & A-studio & 8 \\
+good-first-issue & 24 & kind/documentation & 12 & L-shell & 8 \\
+difficulty: beginner & 24 & core & 12 & ingame/ai & 8 \\
+Priority: Medium & 24 & & & & \\
+
+\Xhline{3\arrayrulewidth}
+\end{tabular}
+\end{table}
+
+
+
+
+\begin{table}[t]
+\small
+  \centering
+  \caption{コード変更のプログラミング言語の頻度表．WIP．}
+  \label{table:issue_lang_freq}
+  \begin{tabular}{ c | c || c | c || c | c } \Xhline{3\arrayrulewidth}
+プログラミング言語名 & 頻度 &  &  &  &  \\ \hline \hline
+Markdown & 402 & Scala & 26 & Cucumber & 4 \\
+JavaScript & 336 & Swift & 24 & CMake & 4 \\
+Python & 227 & TypeScript & 23 & Stylus & 4 \\
+reStructuredText & 189 & Twig & 21 & SVG & 4 \\
+Go & 117 & Kotlin & 16 & OCaml & 3 \\
+C++ & 116 & Perl & 15 & FreeMarker & 2 \\
+RenderScript & 112 & PowerShell & 8 & VimL & 2 \\
+C\# & 97 & Haml & 7 & Groff & 2 \\
+Hack & 94 & CoffeeScript & 6 & F\# & 2 \\
+CSS & 65 & JSX & 6 & Lua & 2 \\
+JSON & 63 & Less & 6 & IDL & 2 \\
+HTML & 60 & Slim & 6 & Objective-C++ & 2 \\
+Java & 57 & Clojure & 6 & NSIS & 2 \\
+Text & 48 & HTML+ERB & 5 & Pascal & 2 \\
+C & 44 & Limbo & 5 & PLSQL & 1 \\
+YAML & 37 & TOML & 5 & Makefile & 1 \\
+Ruby & 34 & Handlebars & 4 & Erlang & 1 \\
+Shell & 33 & INI & 4 & desktop & 1 \\
+Jade & 32 & Dart & 4 & Gradle & 1 \\
+XML & 29 & AsciiDoc & 4 & HTML+PHP & 1 \\
+SCSS & 28 & & & & \\
+
+\Xhline{3\arrayrulewidth}
+\end{tabular}
+\end{table}
+
+
+
+
+\subsection{コード変更}
+
+\begin{itemize}
+    \item リポジトリごとの収集したissue数の平均
+    \item リポジトリにつけられているタグ？
+    \item プログラミング言語ごとのリポジトリ数
+\end{itemize}
