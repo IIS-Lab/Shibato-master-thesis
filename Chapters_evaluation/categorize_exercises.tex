@@ -8,15 +8,14 @@
 \graphicspath{{Chapters_evaluation/Figs/}}
 
 
-\ref{section:ta_evaluation}，\ref{section:interview-study}章にて述べた評価実験により，イシューをプログラミング演習問題へと転用する事で，既存の学習環境にはない独自のプログラミング演習問題を提供可能である事が明らかとなった.
-しかし，RealCodeの演習問題から何を学べるのかは明らかとなっていない．
-そこで我々は，RealCodeから何を学べるのかを理解するために，著者によるRealCodeの演習問題の評価を行った．
-本章では，この評価実験の詳細と結果について述べる．
+\ref{section:ta_evaluation}，\ref{section:interview-study}章にて述べた評価実験により，イシューをプログラミング演習問題へと転用することで，既存の学習環境にはない独自のプログラミング演習問題を提供可能であることが明らかとなった.
+しかし，RealCodeの演習問題からどのような内容を学習できるのかは明らかとなっていない．
+そこで，RealCodeの演習問題から学習可能な内容を理解するために，著者によるRealCodeの演習問題の分類評価を行った．
 
 
 \section{実験方法}
 
-現在のRealCodeのプロトタイプに存在する \xxx 件の演習問題に対し，図\ref{fig:lab-study}に示す本実験用のインターフェースから，著者は以下の質問に回答した．
+現在のRealCodeのプロトタイプに存在する116件のPythonの演習問題に対し，図\ref{fig:lab-study}に示す分類評価用のインターフェースから，著者は以下の質問に回答した．
 
 \begin{itemize}
   \item[Q1-1.] Is this a good exercise to you? (1: Disagree -- 3: Agree）
@@ -29,8 +28,8 @@
       \item 自分が経験した・見たことのあるbugの解決方法
       \item ソフトウェアのテスト
       \item デザイン
-      \item Web
-      \item DB
+      \item ウェブ
+      \item データベース
       \item 例外処理
       \item メンテナンス
       \item その他学んだこと（記述式）
@@ -40,11 +39,30 @@
 \begin{figure}[H]
 　\centering
   \includegraphics[width=1.0\columnwidth]{20181218-lab-study-interface-all.png}
-  \caption{評価に用いたインターフェース．}
+  \caption{RealCodeが出題する演習問題の分類評価にて用いたインターフェース．}
   \label{fig:lab-study}
 \end{figure}
 
 \section{実験結果と考察}
+
+\begin{table}[b]
+  \centering
+  \caption{RealCodeが出題する演習問題の分類評価におけるQ2の結果．}
+  \label{table:lab-study-q2-result}
+  \begin{tabular}{ l | c } \Xhline{3\arrayrulewidth}
+      分類 & 割合（\%） \\ \hline \hline
+      例外処理 & 12.85 \\
+      メンテナンス & 12.29  \\
+      自分が経験した・見たことのあるbugの解決方法 & 9.5 \\
+      ライブラリやAPIの使い方 & 6.7 \\
+      アルゴリズム & 2.79 \\
+      Web & 2.79 \\
+      文法 & 1.12 \\  
+      デザイン & 0.56 \\
+      DB & 0.56 \\
+      \Xhline{3\arrayrulewidth}
+  \end{tabular}
+\end{table}
 
 Q1-1に対して，40.8\%の演習問題が``Agree''，17.9\%が``Neither''，41.3\%が``Disagree''として回答された．
 ``Disagree''とラベル付けされた演習問題に対するQ1-2の回答として，１）コード変更がわかりづらい，２）リファクタリングのみが行われている，３）著書が知らなかったライブラリのAPIが多く使用されている，の３つの要因が多く挙げられた．
@@ -65,52 +83,39 @@ RealCodeの演習問題において特に頻繁に使用されているプログ
 このような演習問題の多くが，デバッグツールやコンソールアプリといった，著者にとってあまり馴染みのないリポジトリから生成された．
 ユーザのプログラミング経験や知識に応じて，演習問題の生成元であるリポジトリをあらかじめ選定することで，ユーザが知らないライブラリが多く使用された演習問題を除外できる可能性があると考える．
 
-
-
-\begin{table}[t]
-  \centering
-  \caption{WIP}
-  \label{table:lab-study-q2-result}
-  \begin{tabular}{ l | c } \Xhline{3\arrayrulewidth}
-      分類 & 割合（\%） \\ \hline \hline
-      例外処理 & 12.85 \\
-      メンテナンス & 12.29  \\
-      自分が経験した・見たことのあるbugの解決方法 & 9.5 \\
-      ライブラリやAPIの使い方 & 6.7 \\
-      アルゴリズム & 2.79 \\
-      Web & 2.79 \\
-      文法 & 1.12 \\  
-      デザイン & 0.56 \\
-      DB & 0.56 \\
-      \Xhline{3\arrayrulewidth}
-  \end{tabular}
-\end{table}
-
 次に，Q2の回答結果を表\ref{table:lab-study-q2-result}に示す．
 特に回答の割合の高かった例外処理，メンテナンス，自分が経験した・見たことのあるbugの解決方法，ライブラリやAPIの使い方の4つの分類について考察を行う．
 
 
-\subsection{例外処理に関連する演習問題}
+\subsection{例外処理に関する演習問題}
+
+% \begin{figure}[t]
+%     \begin{tabular}{cc}
+%       %---- Flip card, before ---------------------------
+%       \begin{minipage}[t]{1.0\columnwidth}
+%         \centering
+%         \includegraphics[width=1.0\columnwidth]{20190107-lab-study-exception-exercise.png}
+%         \subcaption{例外処理1．}
+%         \label{fig:lab-study-eg-exception-1}
+%       \end{minipage} \\
+%       %---- Flip card, after --------------------------
+%       \begin{minipage}[t]{1.0\columnwidth}
+%         \centering
+%         \includegraphics[width=1.0\columnwidth]{20190107-lab-study-exception-exercise2.png}
+%         \subcaption{例外処理2．}
+%         \label{fig:lab-study-eg-exception-2}
+%       \end{minipage}
+%     \end{tabular}
+%     \caption{例外処理．WIP．}
+%     \label{fig:lab-study-eg-exception}
+% \end{figure}
 
 \begin{figure}[t]
-    \begin{tabular}{cc}
-      %---- Flip card, before ---------------------------
-      \begin{minipage}[t]{1.0\columnwidth}
-        \centering
-        \includegraphics[width=1.0\columnwidth]{20190107-lab-study-exception-exercise.png}
-        \subcaption{例外処理1．}
-        \label{fig:lab-study-eg-exception-1}
-      \end{minipage} \\
-      %---- Flip card, after --------------------------
-      \begin{minipage}[t]{1.0\columnwidth}
-        \centering
-        \includegraphics[width=1.0\columnwidth]{20190107-lab-study-exception-exercise2.png}
-        \subcaption{例外処理2．}
-        \label{fig:lab-study-eg-exception-2}
-      \end{minipage}
-    \end{tabular}
-    \caption{例外処理．WIP．}
-    \label{fig:lab-study-eg-exception}
+%   \vspace{5mm}    
+  \centering
+  \includegraphics[width=1.0\columnwidth]{20190107-lab-study-exception-exercise2.png}
+  \caption{例外処理に関する演習問題の例．``Unicode Encode Error''のバグに対して，Pythonのtry，catch構文を用いて対応している．}
+  \label{fig:lab-study-eg-exception}
 \end{figure}
 
 
@@ -120,12 +125,12 @@ RealCodeの演習問題において特に頻繁に使用されているプログ
 RealCodeの例外処理に関する演習問題を通じて，ソフトウェアを本番稼働させた際に発生しうる問題と，その対応策を学ぶことができると考えられる．
 
 
-\subsection{メンテナンスに関連する演習問題}
+\subsection{メンテナンスに関する演習問題}
 
 \begin{figure}[t]
 	\centering
   \includegraphics[width=1.0\columnwidth]{20190107-lab-study-maintenance-exercise.png}
-  \caption{メンテナンス．WIP．}
+  \caption{ソフトウェアのメンテナンスに関する演習問題の例．}
   \label{fig:lab-study-eg-maintenance}
 \end{figure}
 
@@ -139,7 +144,7 @@ RealCodeのメンテナンスに関する演習問題から，ソフトウェア
 \begin{figure}[t]
 　\centering
 　\includegraphics[width=1.0\columnwidth]{20190107-lab-study-experience-exercise.png}
-  \caption{経験．WIP．}
+  \caption{自分が経験した・見たことのあるbugの解決方法に関連する演習問題の例．}
   \label{fig:lab-study-eg-experience}
 \end{figure}
 
@@ -153,7 +158,7 @@ RealCodeの演習問題はGitHub上のデータから生成されており，実
 \begin{figure}[t]
 	\centering
   \includegraphics[width=1.0\columnwidth]{20190107-lab-study-lib-exercise.png}
-  \caption{ライブラリ．WIP．}
+  \caption{ライブラリやAPIの使い方に関連する演習問題の例．}
   \label{fig:lab-study-eg-lib}
 \end{figure}
 
