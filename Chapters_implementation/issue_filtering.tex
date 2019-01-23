@@ -19,7 +19,7 @@
     \caption{GitHubのイシューとプルリクエストをプログラミング演習問題へと転用するシステムの概念図．プログラミング演習問題とその解答の説明文を，イシューとプルリクエストの説明文から生成する．さらに解答となるソースコードをプルリクエストのコード変更から生成する．}~\label{fig:system_diagram}
 \end{figure}
 
-現実のソフトウェア開発において行われたソースコードの変更データを収集するために，本研究ではソフトウェア開発を管理するウェブ上のプラットフォームであるGitHub~\footnote{\url{https://github.com}}のイシューとプルリクエストを使用する．
+現実のソフトウェア開発において行われたソースコードの変更データを収集するために，本研究ではソフトウェア開発を管理するウェブ上のプラットフォームであるGitHubのイシューとプルリクエストを使用する．
 GitHubが提供するイシューは，ソフトウェア開発における課題を登録し管理する機能である．
 イシューを導入することにより，新機能開発や修正すべきバグといった対応すべき課題を開発チーム内にて円滑に共有することが可能となる．
 イシューはタイトル・説明文・ラベルなどの情報から構成される．
@@ -31,7 +31,7 @@ GitHubのプルリクエストと呼ばれる機能は，イシューを解決�
 本研究が提案するイシューとプルリクエストをプログラミング演習問題へと転用するシステムの概念図を図\ref{fig:system_diagram}に示す．
 イシューの説明文は対応すべきソフトウェア開発の課題を説明し，その課題を解決するために必要なコード変更はプルリクエストに含まれている．
 プログラミング演習問題も同様に，解答すべき課題の説明と，その解答となるソースコードから構成される．
-従って，イシューとプルリクエストからプログラミング演習問題に適した情報を抽出することで，半自動的にプログラミング演習問題を生成することが出来ると考える．
+従って，イシューとプルリクエストからプログラミング演習問題に適した情報を抽出することで，半自動的にプログラミング演習問題を生成することができると考える．
 
 
 \section{データ収集とヒューリスティクスによる事前処理}
@@ -106,7 +106,8 @@ Up for grabs\footnote{\url{http://up-for-grabs.net}}というウェブサイト�
 \begin{figure}[tb]
     \centering
     \includegraphics[width=1.0\columnwidth]{GitHub_api_explorer.png}
-    \caption{GitHub GraphQL API Explorer~\footnote{\url{https://developer.github.com/v4/explorer/}}にて，データ収集用のクエリを実装している様子．左のエディタ上で実装したクエリを実行した結果が中央に表示されている．また，使用可能なスキーマやフィールドのドキュメントを右側のパネルで閲覧できる．}~\label{fig:GitHub_api_explorer}
+    \caption{GitHub GraphQL API Explorerにてデータ収集用のクエリを実装している様子．左のエディタ上で実装したクエリを実行した結果が中央に表示されている．また，使用可能なスキーマやフィールドのドキュメントを右側のパネルで閲覧できる．}
+    \label{fig:GitHub_api_explorer}
 \end{figure}
 
 
@@ -250,10 +251,10 @@ Pythonからgitコマンドを実行するために，GitPython~\footnote{\url{h
 \end{figure}
 
 
-図~\ref{fig:dtgraph}に211件のラベルづけされた全てのイシューを用いて学習させた決定木を示す．
+図\ref{fig:dtgraph}に211件のラベルづけされた全てのイシューを用いて学習させた決定木を示す．
 橙はunrepurposeable，青はrepurposeableとして分類されることを意味する．
 10分割交差検証法で識別精度を検証した結果，unrepurposeableな演習問題において適合率が0.89，再現度が0.73，repurposeableなイシューにおいて適合率が0.71，再現度が0.83であった．
-図~\ref{fig:dtgraph}が示すように，コード変更の行数を用いた分類が第1段階で行われており，イシューの識別において大きな役割を担っていることが示唆される．
+図\ref{fig:dtgraph}が示すように，コード変更の行数を用いた分類が第1段階で行われており，イシューの識別において大きな役割を担っていることが示唆される．
 特に，1行のコード変更からなる演習問題の多くがunrepurposeableな演習問題として分類されている．
 また，\textit{desc\_words}と\textit{entry\_issues}も分類に一定の寄与を示しており，仮説から構築した特徴量がある程度の効果を上げていることが見て取れる．
 % Figure~\ref{fig:dtgraph} shows the decision tree trained with all 211 samples.
@@ -269,14 +270,14 @@ Pythonからgitコマンドを実行するために，GitPython~\footnote{\url{h
 
 
 
-図~\ref{fig:dtgraph}の深さが1の左の葉では既にジニ係数が0.1207となっており，unrepurposeableと分類する純度の高い葉が$\textit{code\_lines}=1$のみの条件により生成できていることが分かる．
+図\ref{fig:dtgraph}の深さが1の左の葉では既にジニ係数が0.1207となっており，unrepurposeableと分類する純度の高い葉が$\textit{code\_lines}=1$のみの条件により生成できていることが分かる．
 この条件では，ソースコード中の1行のタイプミスの修正や，1行のみのコード変更によるバグ修正などの例が確認できた．
 そういった演習問題では，プログラミング言語の学習において学べることは非常に小さい，あるいは前後のコードが明示的に与えられない為に解答するうえで必要な背景知識が十分に提示できていないことが多く存在する．
-図~\ref{fig:dtgraph}に示す分類器は，このようなイシューを正しくunrepurposeableと分類できている．
+図\ref{fig:dtgraph}に示す分類器は，このようなイシューを正しくunrepurposeableと分類できている．
 
 一方で深さが3の右二つの葉では，repurposeableと分類されており，かつジニ係数が高くなっている（0.245と0.497）．
 即ち，unrepurposeableと分類されるべき多くのイシューが誤ってrepurposeableと分類されてしまっている．
-図1を見ると，$\textit{code\_lines} >= 2$かつ$\textit{entry\_issues} >= 2$を満たすイシューがこれら右2つの葉に分類されている．
+図\ref{fig:dtgraph}を見ると，\textit{code\_lines}が2以上かつ\textit{entry\_issues}が2以上を満たすイシューがこれら右2つの葉に分類されている．
 それらの条件を満たすunrepurposeableなイシューの例としては，実験参加者にとってあまり馴染みのないソフトウェア（例えば，自動デプロイ用のコンソールアプリ）のリポジトリから抽出されたイシューなどがあった．
 ウェブアプリやライブラリといったリポジトリの特徴を決定木の特徴量に加えることで，さらに決定木の精度を向上させることができると考えられる．
 
@@ -381,22 +382,22 @@ RealCodeが出題する演習問題のトピックを指定することができ
     \label{table:issue_lang_freq}
     \begin{tabular}{c | c || c | c || c | c || c | c} \Xhline{3\arrayrulewidth}
         プログラミング言語名 & 件数 &  &  &  &  &  &   \\ \hline \hline
-        Markdown & 402 & Ruby & 34 & Less & 6 & FreeMarker & 2 \\
-        JavaScript & 336 & Shell & 33 & Slim & 6 & VimL & 2 \\
-        Python & 227 & Jade & 32 & Clojure & 6 & Groff & 2 \\
-        reStructuredText & 189 & XML & 29 & HTML+ERB & 5 & F\# & 2 \\
-        Go & 117 & SCSS & 28 & Limbo & 5 & Lua & 2 \\
-        C++ & 116 & Scala & 26 & TOML & 5 & IDL & 2 \\
-        RenderScript & 112 & Swift & 24 & Handlebars & 4 & Objective-C++ & 2 \\
-        C\# & 97 & TypeScript & 23 & INI & 4 & NSIS & 2 \\
-        Hack & 94 & Twig & 21 & Dart & 4 & Pascal & 2 \\
-        CSS & 65 & Kotlin & 16 & AsciiDoc & 4 & PLSQL & 1 \\
-        JSON & 63 & Perl & 15 & Cucumber & 4 & Makefile & 1 \\
-        HTML & 60 & PowerShell & 8 & CMake & 4 & Erlang & 1 \\
-        Java & 57 & Haml & 7 & Stylus & 4 & desktop & 1 \\
-        Text & 48 & CoffeeScript & 6 & SVG & 4 & Gradle & 1 \\
-        C & 44 & JSX & 6 & OCaml & 3 & HTML+PHP & 1 \\
-        YAML & 37 & & & & & & \\
+        JavaScript & 336 & Ruby & 34 & Less & 6 & FreeMarker & 2 \\
+        Python & 227 & Shell & 33 & Slim & 6 & VimL & 2 \\
+        reStructuredText & 189 & Jade & 32 & Clojure & 6 & Groff & 2 \\
+        Go & 117 & XML & 29 & HTML+ERB & 5 & F# & 2 \\
+        C++ & 116 & SCSS & 28 & Limbo & 5 & Lua & 2 \\
+        RenderScript & 112 & Scala & 26 & TOML & 5 & IDL & 2 \\
+        C# & 97 & Swift & 24 & Handlebars & 4 & Objective-C++ & 2 \\
+        Hack & 94 & TypeScript & 23 & INI & 4 & NSIS & 2 \\
+        CSS & 65 & Twig & 21 & Dart & 4 & Pascal & 2 \\
+        JSON & 63 & Kotlin & 16 & AsciiDoc & 4 & PLSQL & 1 \\
+        HTML & 60 & Perl & 15 & Cucumber & 4 & Makefile & 1 \\
+        Java & 57 & PowerShell & 8 & CMake & 4 & Erlang & 1 \\
+        Text & 48 & Haml & 7 & Stylus & 4 & desktop & 1 \\
+        C & 44 & CoffeeScript & 6 & SVG & 4 & Gradle & 1 \\
+        YAML & 37 & JSX & 6 & OCaml & 3 & HTML+PHP & 1 \\
+
         \Xhline{3\arrayrulewidth}
     \end{tabular}
 \end{table}
@@ -408,11 +409,10 @@ RealCodeが出題する演習問題のトピックを指定することができ
 また追加行数が削除行数よりも大きいことから，RealCodeのデータセットの多くが主に新規にコードを追加したイシューであることが分かる．
 
 次にコード変更がどのプログラミング言語が行われているかを分析した（表\ref{table:issue_lang_freq}）．
-計61のプログラミング言語（但し``HTML+ERB''のような組み合わせも含む）がRealCodeのデータセット中に存在し，多様なプログラミング言語の学習支援に対応できる可能性があることが分かる．
-また，``JavaScript''や``Python''といった人気のプログラミング言語\footnote{\url{https://octoverse.github.com/projects.html}}が上位にあることが分かる．
-一方で，最も件数が多いプログラミング言語は``Markdown''という文章を記述するための言語となっている．
-% Markdownとは文章を記述するための言語であり，文書を手軽にHTMLへと変換することができる．
-Markdownで行われたコード変更の多くがリポジトリのドキュメントの更新であり，プログラミング学習においては妥当でないデータである可能性が高い．
+計60のプログラミング言語（但し``HTML+ERB''のような組み合わせも含む）がRealCodeのデータセット中に存在し，多様なプログラミング言語の学習支援に対応できる可能性があることが分かる．
+また，``JavaScript''や``Python''といった人気のプログラミング言語\footnote{\url{https://octoverse.github.com/projects.html}}が上位にあることが分かる．．
+一方で``JSON''や``Text''といったデータや文章を記述するための言語も上位に位置している．
+それらの言語で行われたコード変更の多くがリポジトリのドキュメントの更新であり，プログラミング学習においては妥当でないデータである可能性が高い．
 今回行った決定木にはプログラミング言語に関する特徴量が含まれていなかったため，このようなデータを除去できていないと考えられる．
 
 次にデータセット中のイシューが作成された目的を理解するために，イシューに付与されているラベルのうち出現頻度が高い100件を抽出した（表\ref{table:issue_label_freq}）．

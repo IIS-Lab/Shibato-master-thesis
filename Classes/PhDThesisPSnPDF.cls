@@ -856,7 +856,7 @@ wish to left align your text}
 \newcommand{\supervisorrole}[1]{\renewcommand{\@supervisorrole}{#1}}
 
 % Supervisor width to align
-\newcommand{\@supervisorlinewidth}{0.35\textwidth}
+\newcommand{\@supervisorlinewidth}{0.5\textwidth}
 \newcommand{\supervisorlinewidth}[1]{\renewcommand{\@supervisorlinewidth}{#1}}
 
 % Advisor
