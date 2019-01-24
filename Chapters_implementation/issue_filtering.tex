@@ -47,13 +47,13 @@ GitHubのプルリクエストと呼ばれる機能は，イシューを解決�
 % Exercises that require special knowledge about a project or are unnecessarily complex would be inappropriate as well.
 
 % Because of an enormous number of issues and code diffs on GitHub, we performed screening before performing classification.
-そこで我々は，GitHub上の公開されているイシューとプルリクエストのうち，プログラミング演習問題に転用できると考えられるものを抽出するため，以下の５つのヒューリスティクスを用いた．
+そこで本研究では，GitHub上の公開されているイシューとプルリクエストのうち，プログラミング演習問題に転用できると考えられるものを抽出するため，以下の５つのヒューリスティクスを用いた．
 \begin{enumerate}
 \item[H1] \textbf{リポジトリ外部の開発者でも対応可能と明示的に指定されているイシューであること}: この情報がイシューに対して明示的に与えられていることは，コード変更に必要な情報が全てイシュー内で提供されていると想定できるため．
 \item[H2] \textbf{プルリクエストに含まれるコード変更が50行以下であること}: 極端に長いコード変更は演習問題として不適切であるため．
 \item[H3] \textbf{プルリクエストのコード変更が1ファイルのみにて行われていること}: 複数のファイルにまたがるコード変更は各ファイルの役割などリポジトリ特有の知識を必要とする可能性が高いため．
 \item[H4] \textbf{イシューが説明文を含むこと}: 説明文をプログラミング演習問題の問題文として利用するため，その情報がないイシューは不適切であるため．
-\item[H5]  \textbf{イシューが閉じられており，関連するプルリクエストがマージされていること}: マージはコード変更が開発チームで認めれたものであり，コード変更が適切であることを示すと考えられるため．
+\item[H5]  \textbf{イシューが閉じられており，関連するプルリクエストがマージされていること}: マージはコード変更が開発チームで認められたことを示すものであり，コード変更が適切であることを示すと考えられるため．
 \end{enumerate}
 
 \begin{figure}[t]
@@ -155,16 +155,16 @@ GraphQLではデータの構造とフィールドを指定することで，必�
 
 GraphQLによりイシューと関連するプルリクエストの情報を抽出することができるが，プルリクエストにて行われた実際のコード変更データはGraphQLからは取得することができない．
 GraphQLから収集したイシューについて，gitコマンドを用いて関連するリポジトリとコード変更履歴をクローンし，変更前と変更後のバージョンのコードを比較することでコード変更データを抽出した．
-Pythonからgitコマンドを実行するために，GitPython~\footnote{\url{https://gitpython.readthedocs.io/en/stable/}}を使用した．
+また，Pythonからgitコマンドを実行する際にはGitPython~\footnote{\url{https://gitpython.readthedocs.io/en/stable/}}を使用した．
 
   
 \section{決定木を用いた転用に適したイシューの抽出}
 
 \subsection{データのラベル付け}
-前節にて述べたGitHub上のデータ抽出作業により，プログラミング演習問題に転用する上で不適切であると考えれるイシューおよびプルリクエストを取り除くことができた．
+前節にて述べたGitHub上のデータ抽出作業により，プログラミング演習問題に転用する上で不適切であると考えられるイシューおよびプルリクエストを取り除くことができた．
 しかし，抽出されたデータから作られた演習問題がすべて適切であるとは限らない．
 例えばソースコード中のコメントを修正するような演習問題は，プログラミング言語の学習において学べることは非常に小さい．
-そこで我々は妥当でないプログラミング演習問題を生成し得るイシューを除去するための，機械学習を用いた分類器を実装することとした．
+そこで我々は妥当でないプログラミング演習問題を生成し得るイシューを除去するために，機械学習を用いた分類器を実装することとした．
 %また，分類器の学習に必要なデータセットを構築するために，学生によるラベル付けを行った．
 
 % Although our screening filtered out issues clearly unusable for our purpose, it is still unknown whether generated exercises would offer valid problems.
@@ -174,7 +174,7 @@ Pythonからgitコマンドを実行するために，GitPython~\footnote{\url{h
 分類器の実装にあたり，イシューから転用した演習問題がプログラミング演習問題として成立するかどうかの評価を行い，教師あり学習におけるラベルを生成することとした．
 まず，事前処理後のデータに修正を加えずに，イシュー内の説明文とコード変更をそれぞれ問題文，解答コード例とするプログラミング演習問題を生成した．
 それぞれの演習問題に対し，「与えられた演習問題は，問題として成立していた．」かを，Pythonの授業を大学で受講した経験がある10人の学生（PA1--10）に５段階で評価してもらった（1: 全く同意しない -- 5: 強く同意する）．
-各実験参加者は時間の許す限りできるだけ多くの演習問題の評価を行ってもらうように指示した．
+各実験参加者には時間の許す限りできるだけ多くの演習問題の評価を行ってもらうように指示した．
 評価の結果，少なくとも2人の実験参加者が評価を行ったイシューが211件得られた．
 
 % We recruited 10 students (PA1--10) who had taken at least one Python class at their universities.
@@ -185,7 +185,7 @@ Pythonからgitコマンドを実行するために，GitPython~\footnote{\url{h
 % As a result, we collected 211 exercises that contain ratings from 2 participants.
 
 211件のイシューに対して，得られた回答の平均値が3.5点以上のイシューをプログラミング演習問題への転用に適するもの，それ以外を転用に適さないものとした．
-その結果，85件の転用に適するイシュー（``repurposeable"）と，126件の転用に適さないイシュー（``unrepurposeable"）を得た．
+その結果，85件の転用に適するイシュー（``repurposable"）と，126件の転用に適さないイシュー（``unrepurposable"）を得た．
 
 % We took the average value for the two ratings on each exercise.
 % We then categorized each exercise to ``valid'' if the average was equal to or higher than 3.5.
@@ -201,7 +201,7 @@ Pythonからgitコマンドを実行するために，GitPython~\footnote{\url{h
 % We instead decided to use a decision tree (a Classification and Regression Tree) for our classification.
 % A decision tree also visualizes classification process, and we can examine what features would contribute to accurate classification.
 
-はじめに我々はunrepurposeableと分類されるべきイシューを特定するための次の3つの仮説を立てた．
+はじめに我々はunrepurposableと分類されるべきイシューを特定するための次の3つの仮説を立てた．
 % \sakaguchi{}{これは上の実験のインタビュー結果からでしょうか？}
 \begin{itemize}
 \item[\textbf{仮説1}: ] \textbf{コード変更が短すぎる．} コードの変更量が少なすぎるものは含まれている学習すべき内容が少ないと想定されるため．
@@ -246,16 +246,16 @@ Pythonからgitコマンドを実行するために，GitPython~\footnote{\url{h
 \begin{figure}[t]
 	\centering
   \includegraphics[width=1.0\columnwidth]{graph_20181005.png}
-  \caption{プログラミング演習問題への転用に適するイシュー（``repurposeable"）と，転用に適さないイシュー（``unrepurposeable"）を分類する決定木．背景色が青の葉はrepurposeableへと，橙の葉はunrepurposeableへと分類する．葉の背景色が濃いほど，ジニ係数が小さいことを意味する．}
+  \caption{プログラミング演習問題への転用に適するイシュー（``repurposable"）と，転用に適さないイシュー（``unrepurposable"）を分類する決定木．背景色が青の葉はrepurposableへと，橙の葉はunrepurposableへと分類する．葉の背景色が濃いほど，ジニ係数が小さいことを意味する．}
   \label{fig:dtgraph}
 \end{figure}
 
 
 図\ref{fig:dtgraph}に211件のラベルづけされた全てのイシューを用いて学習させた決定木を示す．
-橙はunrepurposeable，青はrepurposeableとして分類されることを意味する．
-10分割交差検証法で識別精度を検証した結果，unrepurposeableな演習問題において適合率が0.89，再現度が0.73，repurposeableなイシューにおいて適合率が0.71，再現度が0.83であった．
+橙はunrepurposable，青はrepurposableとして分類されることを意味する．
+10分割交差検証法で識別精度を検証した結果，unrepurposableな演習問題において適合率が0.89，再現度が0.73，repurposableなイシューにおいて適合率が0.71，再現度が0.83であった．
 図\ref{fig:dtgraph}が示すように，コード変更の行数を用いた分類が第1段階で行われており，イシューの識別において大きな役割を担っていることが示唆される．
-特に，1行のコード変更からなる演習問題の多くがunrepurposeableな演習問題として分類されている．
+特に，1行のコード変更からなる演習問題の多くがunrepurposableな演習問題として分類されている．
 また，\textit{desc\_words}と\textit{entry\_issues}も分類に一定の寄与を示しており，仮説から構築した特徴量がある程度の効果を上げていることが見て取れる．
 % Figure~\ref{fig:dtgraph} shows the decision tree trained with all 211 samples.
 % Orange and blue represent the ``invalid" and ``valid" classes, respectively.
@@ -270,15 +270,15 @@ Pythonからgitコマンドを実行するために，GitPython~\footnote{\url{h
 
 
 
-図\ref{fig:dtgraph}の深さが1の左の葉では既にジニ係数が0.1207となっており，unrepurposeableと分類する純度の高い葉が$\textit{code\_lines}=1$のみの条件により生成できていることが分かる．
+図\ref{fig:dtgraph}の深さが1の左の葉では既にジニ係数が0.1207となっており，unrepurposableと分類する純度の高い葉が$\textit{code\_lines}=1$のみの条件により生成できていることが分かる．
 この条件では，ソースコード中の1行のタイプミスの修正や，1行のみのコード変更によるバグ修正などの例が確認できた．
 そういった演習問題では，プログラミング言語の学習において学べることは非常に小さい，あるいは前後のコードが明示的に与えられない為に解答するうえで必要な背景知識が十分に提示できていないことが多く存在する．
-図\ref{fig:dtgraph}に示す分類器は，このようなイシューを正しくunrepurposeableと分類できている．
+図\ref{fig:dtgraph}に示す分類器は，このようなイシューを正しくunrepurposableと分類できている．
 
-一方で深さが3の右二つの葉では，repurposeableと分類されており，かつジニ係数が高くなっている（0.245と0.497）．
-即ち，unrepurposeableと分類されるべき多くのイシューが誤ってrepurposeableと分類されてしまっている．
+一方で深さが3の右二つの葉では，repurposableと分類されており，かつジニ係数が高くなっている（0.245と0.497）．
+即ち，unrepurposableと分類されるべき多くのイシューが誤ってrepurposableと分類されてしまっている．
 図\ref{fig:dtgraph}を見ると，\textit{code\_lines}が2以上かつ\textit{entry\_issues}が2以上を満たすイシューがこれら右2つの葉に分類されている．
-それらの条件を満たすunrepurposeableなイシューの例としては，実験参加者にとってあまり馴染みのないソフトウェア（例えば，自動デプロイ用のコンソールアプリ）のリポジトリから抽出されたイシューなどがあった．
+それらの条件を満たすunrepurposableなイシューの例としては，実験参加者にとってあまり馴染みのないソフトウェア（例えば自動デプロイ用のコンソールアプリ）のリポジトリから抽出されたイシューなどがあった．
 ウェブアプリやライブラリといったリポジトリの特徴を決定木の特徴量に加えることで，さらに決定木の精度を向上させることができると考えられる．
 
 この決定木を用いたフィルタリングは完全ではないが，F値の平均が0.79の精度でプログラミング演習問題への転用に適さないイシューを取り除くことができており，現在のプロトタイプに導入することとした．
@@ -419,7 +419,7 @@ RealCodeが出題する演習問題のトピックを指定することができ
 次にデータセット中のイシューが作成された目的を理解するために，イシューに付与されているラベルのうち出現頻度が高い100件を抽出した（表\ref{table:issue_label_freq}）．
 ``help wanted''や``good first issue''といった，外部の開発者を積極的に歓迎するためのラベルが多く表れている．
 また``enhancement''といった新規機能開発や``Bug''といったバグ修正など，データセット中のイシューには様々な開発目的があることが分かる．
-リポジトリのトピックと同様に，同じ意味をもつラベル（例，``bug''と``kind/bug''など）を集約することができれば，ユーザの好みに応じて提示する演習問題を限定できるようになると考える．
+リポジトリのトピックと同様に，同じ意味をもつラベル（例えば``bug''と``kind/bug''など）を集約することができれば，ユーザの好みに応じて提示する演習問題を限定できるようになると考える．
 
 
 % リポジトリのトピックと同様に，演習問題のラベルを指定できるようになればユーザの適応的なプログラミング学習を支援できる可能性がある．
