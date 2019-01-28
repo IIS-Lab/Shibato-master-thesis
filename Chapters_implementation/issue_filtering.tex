@@ -76,6 +76,7 @@ GitHubのプルリクエストと呼ばれる機能は，イシューを解決�
       \end{minipage}
       
       \\
+      \vspace{-0.5cm}
       
       %------------------------------
       \begin{minipage}[t]{0.5\columnwidth}
@@ -245,7 +246,9 @@ GraphQLから収集したイシューについて，gitコマンドを用いて�
 
 \begin{figure}[t]
 	\centering
+	\vspace{0.2cm}
   \includegraphics[width=1.0\columnwidth]{graph_20190125.png}
+  \vspace{0.2cm}
   \caption{プログラミング演習問題への転用に適するイシュー（``repurposable"）と，転用に適さないイシュー（``unrepurposable"）を分類する決定木．背景色が青の葉はrepurposableへと，橙の葉はunrepurposableへと分類する．葉の背景色が濃いほど，ジニ係数が小さいことを意味する．}
   \label{fig:dtgraph}
 \end{figure}
@@ -303,7 +306,7 @@ GraphQLから収集したイシューについて，gitコマンドを用いて�
   \caption{RealCodeのデータセットのリポジトリに関する各種統計量．}
   \label{table:stats_repos}
   \begin{tabular}{c || c | c | c | c | c | c} \Xhline{3\arrayrulewidth}
-        & \# of commits & \# of issues & \# of pullRequests & \# of languages & \# of forks & \# of stargazers \\ \hline
+        & \# of commits & \# of issues & \# of pull requests & \# of languages & \# of forks & \# of stars \\ \hline
         % count & 458 & 466 & 466 & 466 & 466 & 466 & 466 \\
         mean & 4337.33 & 1188.29 & 1022.16 & 4.95 & 780 & 4165.52 \\
         std & 7797.91 & 1728.25 & 1439.18 & 4.36 & 1230.71 & 5645.54 \\
@@ -384,23 +387,24 @@ RealCodeが出題する演習問題のトピックを指定することができ
     \begin{tabular}{c | c || c | c || c | c || c | c} \Xhline{3\arrayrulewidth}
         プログラミング言語名 & 件数 &  &  &  &  &  &   \\ \hline \hline
         JavaScript & 336 & Ruby & 34 & Less & 6 & FreeMarker & 2 \\
-        Python & 227 & Shell & 33 & Slim & 6 & VimL & 2 \\
-        reStructuredText & 189 & Jade & 32 & Clojure & 6 & Groff & 2 \\
-        Go & 117 & XML & 29 & HTML+ERB & 5 & F# & 2 \\
-        C++ & 116 & SCSS & 28 & Limbo & 5 & Lua & 2 \\
-        RenderScript & 112 & Scala & 26 & TOML & 5 & IDL & 2 \\
-        C# & 97 & Swift & 24 & Handlebars & 4 & Objective-C++ & 2 \\
-        Hack & 94 & TypeScript & 23 & INI & 4 & NSIS & 2 \\
-        CSS & 65 & Twig & 21 & Dart & 4 & Pascal & 2 \\
-        JSON & 63 & Kotlin & 16 & AsciiDoc & 4 & PLSQL & 1 \\
-        HTML & 60 & Perl & 15 & Cucumber & 4 & Makefile & 1 \\
-        Java & 57 & PowerShell & 8 & CMake & 4 & Erlang & 1 \\
-        Text & 48 & Haml & 7 & Stylus & 4 & desktop & 1 \\
-        C & 44 & CoffeeScript & 6 & SVG & 4 & Gradle & 1 \\
-        YAML & 37 & JSX & 6 & OCaml & 3 & HTML+PHP & 1 \\
+        Go & 117 & Shell & 33 & Slim & 6 & VimL & 2 \\
+        Python & 116 & Jade & 32 & Clojure & 6 & Groff & 2 \\
+        C++ & 116 & XML & 29 & HTML+ERB & 5 & F# & 2 \\
+        RenderScript & 112 & SCSS & 28 & Limbo & 5 & Lua & 2 \\
+        C# & 97 & Scala & 26 & TOML & 5 & IDL & 2 \\
+        Hack & 94 & Swift & 24 & Handlebars & 4 & Objective-C++ & 2 \\
+        CSS & 65 & TypeScript & 23 & INI & 4 & NSIS & 2 \\
+        JSON & 63 & Twig & 21 & Dart & 4 & Pascal & 2 \\
+        HTML & 60 & Kotlin & 16 & AsciiDoc & 4 & PLSQL & 1 \\
+        Java & 57 & Perl & 15 & Cucumber & 4 & Makefile & 1 \\
+        Text & 48 & PowerShell & 8 & CMake & 4 & Erlang & 1 \\
+        C & 44 & Haml & 7 & Stylus & 4 & desktop & 1 \\
+        YAML & 37 & CoffeeScript & 6 & SVG & 4 & Gradle & 1 \\
+        reStructuredText & 35 & JSX & 6 & OCaml & 3 & HTML+PHP & 1 \\
 
         \Xhline{3\arrayrulewidth}
     \end{tabular}
+
 \end{table}
 
 \subsection{イシューに関する分析結果}

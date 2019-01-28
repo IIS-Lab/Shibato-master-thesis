@@ -46,7 +46,7 @@
 
 \begin{table}[b]
   \centering
-  \caption{RealCodeが出題する演習問題の分類評価におけるQ2の結果．}
+  \caption{RealCodeが出題する演習問題の分類評価におけるQ2の結果．但し，母数はQ1に対し``Agree''と回答された48問の演習問題である．}
   \label{table:lab-study-q2-result}
   \begin{tabular}{ l | c } \Xhline{3\arrayrulewidth}
       分類 & 割合（\%） \\ \hline \hline
@@ -63,7 +63,7 @@
   \end{tabular}
 \end{table}
 
-Q1に対して，40.8\%の演習問題が``Agree''，17.9\%が``Neither''，41.3\%が``Disagree''として回答された．
+Q1に対して，41.4\%の演習問題が``Agree''，18.1\%が``Neither''，40.5\%が``Disagree''として回答された．
 また``Disagree''の理由として，１）コード変更がわかりづらい，２）リファクタリングのみが行われている，３）著書が知らなかったライブラリのAPIが多く使用されている，の３つの要因が多く挙げられた．
 
 回答結果を確認した結果，コード変更がわかりづらい要因として，コード変更量が数行程度といった断片的であることや，既存の関数の一部の変更といった局所的であることが明らかとなった．
@@ -72,7 +72,7 @@ Q1に対して，40.8\%の演習問題が``Agree''，17.9\%が``Neither''，41.3
 しかし，現在のRealCodeのプロトタイプは様々なプログラミング言語に対応するために意図的に構文解析を導入していない．
 RealCodeの演習問題において頻繁に使用されているプログラミング言語の構文解析を実装することで，RealCode上の演習問題数を保ちながら，コード変更がわかりづらい演習問題を除外できると考える．
 
-リファクタリングのみが行われている演習問題からは，変数名やインデントの変更などのみから構成されているため，プログラミングに関する知識を得ることができないと判断した．
+リファクタリングのみが行われている演習問題からは，コード変更が変数名やインデントの変更などのみから構成されているため，プログラミングに関する知識を得ることができないと判断した．
 コード変更がリファクタリングであるかどうかを判定するためには，構文解析を使用した手法と，コード変更の繰り返しを検出する手法が考えられる．
 構文解析を用いてコード変更が構造的に変更されているかどうかを判定することで，一般的に構造的には変更しないリファクタリングを検出できると考えられる．
 また，コード変更内に繰り返し発生する変更パターンを検出できた場合も，リファクタリングであると判断できる．
@@ -88,29 +88,12 @@ RealCodeの演習問題において頻繁に使用されているプログラミ
 
 \subsection{例外処理に関する演習問題}
 
-% \begin{figure}[t]
-%     \begin{tabular}{cc}
-%       %---- Flip card, before ---------------------------
-%       \begin{minipage}[t]{1.0\columnwidth}
-%         \centering
-%         \includegraphics[width=1.0\columnwidth]{20190107-lab-study-exception-exercise.png}
-%         \subcaption{例外処理1．}
-%         \label{fig:lab-study-eg-exception-1}
-%       \end{minipage} \\
-%       %---- Flip card, after --------------------------
-%       \begin{minipage}[t]{1.0\columnwidth}
-%         \centering
-%         \includegraphics[width=1.0\columnwidth]{20190107-lab-study-exception-exercise2.png}
-%         \subcaption{例外処理2．}
-%         \label{fig:lab-study-eg-exception-2}
-%       \end{minipage}
-%     \end{tabular}
-%     \caption{例外処理．WIP．}
-%     \label{fig:lab-study-eg-exception}
-% \end{figure}
+例外処理に関して学ぶことができるとラベル付けされた演習問題には，文字コードのエンコードエラーやネットワークの接続エラーが発生した際の対応策に関するものが多く含まれていた．
+例えば図\ref{fig:lab-study-eg-exception}に示す演習問題では，Pythonのtry，catch構文を用いて``Unicode Encode Error''という例外に対応している．
+ソフトウェアを本番稼働させるためには，起こりうる例外を想定しあらかじめ対策しておくことが重要であるが，一般的なプログラミング演習問題ではあまり扱われていない~\cite{Piteira_Learning_Computer_Programming}．
+RealCodeの例外処理に関する演習問題を通じて，ソフトウェアを本番稼働させた際に発生しうる例外とその対応策に関する知識を習得できる可能性がある．
 
-\begin{figure}[t]
-%   \vspace{5mm}    
+\begin{figure}[H]
   \centering
   \includegraphics[width=1.0\columnwidth]{20190107-lab-study-exception-exercise2.png}
   \caption{例外処理に関する演習問題の例．``Unicode Encode Error''の例外に対して，Pythonのtry，catch構文を用いて対応している．}
@@ -118,50 +101,49 @@ RealCodeの演習問題において頻繁に使用されているプログラミ
 \end{figure}
 
 
-例外処理に関して学ぶことができるとラベル付けされた演習問題には，文字コードのエンコードエラーやネットワークの接続エラーが発生した際の対応策に関するものが多く含まれていた．
-例えば図\ref{fig:lab-study-eg-exception}に示す演習問題では，Pythonのtry，catch構文を用いて``Unicode Encode Error''という例外に対応している．
-ソフトウェアを本番稼働させるためには，起こりうる例外を想定しあらかじめ対策しておくことが重要であるが，一般的なプログラミング演習問題ではあまり扱われていない~\cite{Piteira_Learning_Computer_Programming}．
-RealCodeの例外処理に関する演習問題を通じて，ソフトウェアを本番稼働させた際に発生しうる例外とその対応策に関する知識を習得できる可能性がある．
-
-
 \subsection{メンテナンスに関する演習問題}
-
-\begin{figure}[t]
-	\centering
-  \includegraphics[width=1.0\columnwidth]{20190107-lab-study-maintenance-exercise.png}
-  \caption{ソフトウェアのメンテナンスに関する演習問題の例．起動時にプロセス番号をログに出力している．}
-  \label{fig:lab-study-eg-maintenance}
-  \vspace{0.5cm}
-\end{figure}
 
 本番稼働中のソフトウェアにて障害が発生した際に迅速に対応するためには，動作中のソフトウェアのログを取得しておくことが重要である~\cite{kernighan1999practice}．
 図\ref{fig:lab-study-eg-maintenance}に示す演習問題の例では，動作しているソフトウェアのプロセス番号をログに追加するコード変更を行なっている．
 プロセス番号があらかじめ分かっていれば，ソフトウェアの動作状況を監視できると同時に，障害発生時にも速やかな対応を行うことが可能となる．
 RealCodeのメンテナンスに関する演習問題から，ソフトウェアの実装だけでなく，運用していく上での知識も学習できる可能性がある．
 
-\subsection{自分が経験した・見たことのあるbugの解決方法に関する演習問題}
-
-\begin{figure}[t]
-　\centering
-　\includegraphics[width=1.0\columnwidth]{20190107-lab-study-experience-exercise.png}
-  \caption{自分が経験した・見たことのあるbugの解決方法に関する演習問題の例．}
-  \label{fig:lab-study-eg-experience}
+\begin{figure}[H]
+\vspace{-0.05cm}
+	\centering
+  \includegraphics[width=0.95\columnwidth]{20190107-lab-study-maintenance-exercise.png}
+  \vspace{-0.05cm}
+  \caption{ソフトウェアのメンテナンスに関する演習問題の例．起動時にプロセス番号をログに出力している．}
+  \label{fig:lab-study-eg-maintenance}
+  \vspace{-0.35cm}
 \end{figure}
+
+\subsection{自分が経験した・見たことのあるbugの解決方法に関する演習問題}
 
 RealCodeの演習問題はGitHubに実在するイシューとプルリクエストから生成されており，頻発するバグに関する演習問題が多く含まれている．
 図\ref{fig:lab-study-eg-experience}に示す演習問題では，データベースの名前にピリオドは使用できないという，データベースを扱う際に頻発するバグを取り扱っている．
 このようなプログラミングの基礎的知識ではないが実装する上でよく発生する問題は一般的なプログラミング学習材料では扱われておらず，RealCode特有の演習問題であると言える．
 
+\begin{figure}[H]
+　\centering
+　\vspace{-0.3cm}
+　\includegraphics[width=0.95\columnwidth]{20190107-lab-study-experience-exercise.png}
+  \caption{自分が経験した・見たことのあるbugの解決方法に関する演習問題の例．}
+  \label{fig:lab-study-eg-experience}
+  \vspace{-0.2cm}
+\end{figure}
+
 
 \subsection{ライブラリやAPIの使い方に関する演習問題}
 
-\begin{figure}[t]
+実際のソフトウェア開発では，既に機能がパッケージとして実装されたライブラリを活用することで開発を効率的に進めている~\cite{Leveraging_API}．
+図\ref{fig:lab-study-eg-lib}に示す演習問題の例は，Pythonのseaborn\footnote{\url{https://github.com/mwaskom/seaborn}}というデータの可視化に使用されるライブラリにおける，表のグリッド線の表示方法に関する問題である．
+このように，RealCodeの演習問題を通じてライブラリを使用する上で発生しうる問題を学習できる可能性がある．
+
+\begin{figure}[H]
+\vspace{0.3cm}
 	\centering
   \includegraphics[width=1.0\columnwidth]{20190107-lab-study-lib-exercise.png}
   \caption{ライブラリやAPIの使い方に関する演習問題の例．}
   \label{fig:lab-study-eg-lib}
 \end{figure}
-
-実際のソフトウェア開発では，既に機能がパッケージとして実装されたライブラリを活用することで開発を効率的に進めている~\cite{Leveraging_API}．
-図\ref{fig:lab-study-eg-lib}に示す演習問題の例は，Pythonのseaborn\footnote{\url{https://github.com/mwaskom/seaborn}}というデータの可視化に使用されるライブラリにおける，表のグリッド線の表示方法に関する問題である．
-このように，RealCodeの演習問題を通じてライブラリを使用する上で発生しうる問題を学習できる可能性がある．
